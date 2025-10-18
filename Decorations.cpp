@@ -10,8 +10,7 @@ bool Decorations::AddDecorations() {
   //Check if space in vector to add
   if (no_of_decorations_ < kMaxDecorations){
 
-    //Update count of decorations
-    no_of_decorations_++;
+    //Update count of decorations in implementation
 
     //Add to vector
     decorationsList.push_back(decoration_choice_);

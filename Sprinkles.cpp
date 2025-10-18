@@ -17,9 +17,9 @@ Sprinkles::Sprinkles(const string& choice) {
 // add pre-set sprinkles to cake
 void Sprinkles::ApplyDecoration() {
   if (!topping_choice_.empty()) {
-    cout << "applying sprinkles: " << topping_choice_ << endl;
+    cout << "Applying sprinkles: " << topping_choice_ << endl;
   } else {
-    cout << "no sprinkles set to apply." << endl;
+    cout << "No sprinkles set to apply." << endl;
   }
 }
 
@@ -38,7 +38,7 @@ void Sprinkles::SetDecorationChoice(const string& choice) {
     no_of_decorations_ += 1;
     cout << topping_choice_ << " sprinkles were selected!" << endl;
   } else {
-    cout << "cake is full. cannot add more sprinkles!" << endl;
+    cout << "Cake is full. Can't add more sprinkles!" << endl;
   }
 }
 

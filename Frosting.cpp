@@ -22,9 +22,9 @@ Frosting::Frosting(const string& topping_choice) {
 void Frosting::ApplyDecoration() {
   // change array name (old comment)
   if (!topping_choice_.empty()) {
-    cout << "applying frosting: " << topping_choice_ << endl;
+    cout << "Applying frosting: " << topping_choice_ << endl;
   } else {
-    cout << "no frosting set to apply." << endl;
+    cout << "No frosting set to apply." << endl;
   }
 }
 
@@ -40,11 +40,11 @@ std::string Frosting::GetDecorationChoice() const {
 void Frosting::SetDecorationChoice(const string& choice) {
   if (AddDecorations()) {
     topping_choice_ = choice;
-    no_of_decorations_ += 1;
+    no_of_decorations_ ++;
     cout << topping_choice_ << " frosting was selected!" << endl;
   } else {
     // if array empty
-    cout << "cake is full. cannot add more frosting!" << endl;
+    cout << "Cake is full. Can't add more frosting!" << endl;
   }
 }
 

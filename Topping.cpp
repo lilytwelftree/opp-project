@@ -35,9 +35,9 @@ void Topping::SetToppingType(const std::string& choice) {
     topping_type_ = choice;
     decoration_choice_ = choice;
     no_of_decorations_++;
-    std::cout << "topping chosen: " << choice << " added successfully.\n";
+    std::cout << "Topping chosen: " << choice << " added successfully.\n";
   } else {
-    std::cout << "cannot add more toppings, decoration limit reached.\n";
+    std::cout << "Cake is full. Can't add more toppings!\n";
   }
 }
 
@@ -47,5 +47,5 @@ void Topping::SetDecorationChoice(const std::string& choice) {
 
 // idetnify decoration type
 std::string Topping::GetDecorationType() const {
-  return "topping";
+  return topping_type_;
 }
