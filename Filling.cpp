@@ -14,9 +14,9 @@ Filling::Filling(const std::string& choice) {
 // apply chosen filling to cake
 void Filling::ApplyDecoration() {
   if (!filling_choice_.empty() && filling_choice_ != "None") {
-    std::cout << "adding filling: " << filling_choice_ << " inside the cake.\n";
+    std::cout << "Adding filling: " << filling_choice_ << " inside the cake.\n";
   } else {
-    std::cout << "no filling selected.\n";
+    std::cout << "No filling selected.\n";
   }
 }
 
@@ -37,7 +37,7 @@ void Filling::SetFillingChoice(const std::string& choice) {
     no_of_decorations_++;
     std::cout << "filling selected: " << choice << " added successfully.\n";
   } else {
-    std::cout << "cannot add more fillings, decoration limit reached.\n";
+    std::cout << "Cake is full can't add more fillings!\n";
   }
 }
 
