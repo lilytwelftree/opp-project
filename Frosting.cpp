@@ -16,6 +16,7 @@ Frosting::Frosting() {
 // constructor
 Frosting::Frosting(const string& topping_choice) {
   this->topping_choice_ = topping_choice;
+  decoration_choice_ = topping_choice;
 }
 
 // add pre-set frosting to cake

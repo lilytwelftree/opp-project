@@ -75,8 +75,8 @@ bool Order::CheckIsMatchCake(const Cake& submitted_cake, int& correct_items) con
     
     if (submitted_cake.GetFlavour() == request_flavour_) correct_items++;
     if (submitted_cake.GetFilling() == request_filling_) correct_items++;
-    if (submitted_cake.GetTopping() == request_frosting_) correct_items++;
-    if (submitted_cake.GetTopping() == request_sprinkles_) correct_items++;
+    if (submitted_cake.GetFrosting() == request_frosting_) correct_items++;
+    if (submitted_cake.GetSprinkles() == request_sprinkles_) correct_items++;
     
     return (correct_items == total_items);
 }

@@ -12,6 +12,7 @@ Sprinkles::Sprinkles() {
 // constructor with choice
 Sprinkles::Sprinkles(const string& choice) {
   topping_choice_ = choice;
+  decoration_choice_ = choice;
 }
 
 // add pre-set sprinkles to cake

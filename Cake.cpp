@@ -41,9 +41,13 @@ void Cake::AddDecoration(Decorations* decoration) {
 
   // identify decoration type and store accordingly
   std::string type = decoration->GetDecorationType();
-  if (type == "Filling") {
+  if (type == "filling") {
     current_filling_ = choice;
-  } else if (type == "Topping" || type == "Frosting" || type == "Sprinkles") {
+  } else if (type == "frosting") {
+    current_frosting_ = choice;
+  } else if (type == "sprinkles") {
+    current_sprinkles_ = choice;
+  } else if (type == "topping") {
     current_topping_ = choice;
   }
 
@@ -58,6 +62,16 @@ std::string Cake::GetFlavour() const {
 // return current filling
 std::string Cake::GetFilling() const {
   return current_filling_;
+}
+
+// return current frosting
+std::string Cake::GetFrosting() const {
+  return current_frosting_;
+}
+
+// return current sprinkles
+std::string Cake::GetSprinkles() const {
+  return current_sprinkles_;
 }
 
 // return current topping
@@ -82,15 +96,7 @@ void Cake::PrintCakeSummary() const {
   std::cout << "\n Cake Summary \n";
   std::cout << "Flavour: " << (cake_flavour_.empty() ? "None" : cake_flavour_) << "\n";
   std::cout << "Filling: " << (current_filling_.empty() ? "None" : current_filling_) << "\n";
+  std::cout << "Frosting: " << (current_frosting_.empty() ? "None" : current_frosting_) << "\n";
+  std::cout << "Sprinkles: " << (current_sprinkles_.empty() ? "None" : current_sprinkles_) << "\n";
   std::cout << "Topping: " << (current_topping_.empty() ? "None" : current_topping_) << "\n";
-
-  std::cout << "Decorations: ";
-  if (decorations_list_.empty()) {
-    std::cout << "None\n";
-  } else {
-    for (const auto& d : decorations_list_) {
-      std::cout << d << " ";
-    }
-    std::cout << "\n";
-  }
 }

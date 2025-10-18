@@ -12,6 +12,8 @@ class Cake {
   std::string cake_flavour_;
   std::vector<std::string> decorations_list_;
   std::string current_filling_;
+  std::string current_frosting_;
+  std::string current_sprinkles_;
   std::string current_topping_;
 
  public:
@@ -28,6 +30,8 @@ class Cake {
   // accessors
   std::string GetFlavour() const;
   std::string GetFilling() const;
+  std::string GetFrosting() const;
+  std::string GetSprinkles() const;
   std::string GetTopping() const;
 
   // removal functions
