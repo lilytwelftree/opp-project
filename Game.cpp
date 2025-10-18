@@ -8,7 +8,7 @@
 using namespace std;
 
 // constructor
-Game::Game() : game_running_(false), paused_(false), orders_completed_(0), total_revenue_(0.0) {
+Game::Game() : game_running_(false), paused_(false), orders_completed_(0), total_revenue_(0.0), level_time_remaining_(0), level_start_time_(0) {
     srand(time(0)); // seed random number generator
 }
 
@@ -18,7 +18,7 @@ Game::~Game() {
 }
 
 // initialize game
-void Game::initializeGame() {
+void Game::initialiseGame() {
     cout << "\n" << string(60, '=') << endl;
     cout << "welcome to cake shop simulation!" << endl;
     cout << string(60, '=') << endl;
@@ -30,6 +30,29 @@ void Game::initializeGame() {
     cout << string(60, '=') << endl;
     
     game_running_ = true;
+    initialiseLevel();
+}
+
+// initialize level timing
+void Game::initialiseLevel() {
+    level_start_time_ = time(nullptr);
+    
+    // set level time based on current level
+    int current_level = store_.GetLevel();
+    switch (current_level) {
+        case 1: level_time_remaining_ = 180; break;  // 3 minutes
+        case 2: level_time_remaining_ = 240; break;  // 4 minutes  
+        case 3: level_time_remaining_ = 300; break;  // 5 minutes
+        case 4: level_time_remaining_ = 360; break;  // 6 minutes
+        default: level_time_remaining_ = 180; break;
+    }
+    
+    cout << "\n" << string(50, '=') << endl;
+    cout << "LEVEL " << current_level << " STARTED!" << endl;
+    cout << "Time limit: " << level_time_remaining_ << " seconds" << endl;
+    cout << "Serve as many customers as possible!" << endl;
+    cout << string(50, '=') << endl;
+    
     generateNewCustomer();
 }
 
@@ -37,10 +60,6 @@ void Game::initializeGame() {
 void Game::generateNewCustomer() {
     current_customer_ = std::unique_ptr<Customer>(new Customer(orders_completed_ + 1));
     current_cake_ = Cake(); // reset cake
-    
-    // set time limit based on store level
-    Time customer_time = current_customer_->GetTimeLimit();
-    customer_time.SetTimeLimitByLevel(store_.GetLevel());
     
     displayCustomerOrder();
 }
@@ -58,16 +77,18 @@ void Game::displayCustomerOrder() {
     cout << "frosting: " << order.GetRequestFrosting() << endl;
     cout << "sprinkles: " << order.GetRequestSprinkles() << endl;
     cout << "potential revenue: $" << fixed << setprecision(0) << order.CalculateTotalCost() << endl;
-    
-    Time customer_time = current_customer_->GetTimeLimit();
-    cout << "time limit: " << customer_time.GetLimitSeconds() << " seconds" << endl;
     cout << string(50, '-') << endl;
 }
 
-// display time remaining
-void Game::displayTimeRemaining() {
-    Time customer_time = current_customer_->GetTimeLimit();
-    customer_time.DisplayTime();
+// display level time remaining
+void Game::displayLevelTimeRemaining() {
+    int current_time = time(nullptr);
+    int elapsed_time = current_time - level_start_time_;
+    int remaining_time = level_time_remaining_ - elapsed_time;
+    
+    if (remaining_time < 0) remaining_time = 0;
+    
+    cout << "Level time remaining: " << remaining_time << " seconds" << endl;
 }
 
 // get player actions (real input)
@@ -92,7 +113,6 @@ void Game::getPlayerActions() {
 
 // get flavour selection from player
 void Game::selectFlavour() {
-    displayTimeRemaining();
     cout << "\n1. CHOOSE CAKE FLAVOUR:" << endl;
     cout << "   [1] Chocolate" << endl;
     cout << "   [2] Vanilla" << endl;
@@ -138,7 +158,6 @@ void Game::selectFlavour() {
 
 // get filling selection from player
 void Game::addFilling() {
-    displayTimeRemaining();
     cout << "\n2. CHOOSE FILLING:" << endl;
     cout << "   [1] Strawberry Jam" << endl;
     cout << "   [2] Cream Cheese" << endl;
@@ -185,7 +204,6 @@ void Game::addFilling() {
 
 // get frosting selection from player
 void Game::addFrosting() {
-    displayTimeRemaining();
     cout << "\n3. CHOOSE FROSTING:" << endl;
     cout << "   [1] Vanilla Buttercream" << endl;
     cout << "   [2] Chocolate Buttercream" << endl;
@@ -232,7 +250,6 @@ void Game::addFrosting() {
 
 // get sprinkles selection from player
 void Game::addSprinkles() {
-    displayTimeRemaining();
     cout << "\n4. CHOOSE SPRINKLES:" << endl;
     cout << "   [1] Rainbow" << endl;
     cout << "   [2] Chocolate" << endl;
@@ -373,6 +390,58 @@ void Game::displayLevelUpNotification() {
     cout << string(60, '!') << endl;
 }
 
+// check if level time is complete
+void Game::checkLevelComplete() {
+    int current_time = time(nullptr);
+    int elapsed_time = current_time - level_start_time_;
+    int remaining_time = level_time_remaining_ - elapsed_time;
+    
+    if (remaining_time <= 0) {
+        cout << "\n" << string(60, '=') << endl;
+        cout << "LEVEL TIME UP!" << endl;
+        cout << string(60, '=') << endl;
+        
+        displayStatistics();
+        
+        // check if player can advance to next level
+        int current_level = store_.GetLevel();
+        bool can_advance = false;
+        
+        if (current_level == 1 && total_revenue_ >= 500 && store_.GetRating() >= 70) {
+            can_advance = true;
+        } else if (current_level == 2 && total_revenue_ >= 1500 && store_.GetRating() >= 80) {
+            can_advance = true;
+        } else if (current_level == 3 && total_revenue_ >= 5000 && store_.GetRating() >= 90) {
+            can_advance = true;
+        }
+        
+        if (can_advance) {
+            store_.UpdateLevel(current_level + 1);
+            cout << "\n🎉 LEVEL UP! Moving to Level " << store_.GetLevel() << "!" << endl;
+            cout << "Press Enter to start the next level...";
+            cin.get();
+            initialiseLevel();
+        } else {
+            cout << "\n😞 Not enough progress to advance to next level." << endl;
+            cout << "Requirements for Level " << (current_level + 1) << ":" << endl;
+            if (current_level == 1) {
+                cout << "- Revenue: $500 (you have $" << fixed << setprecision(0) << total_revenue_ << ")" << endl;
+                cout << "- Rating: 70% (you have " << store_.GetRating() << "%)" << endl;
+            } else if (current_level == 2) {
+                cout << "- Revenue: $1500 (you have $" << fixed << setprecision(0) << total_revenue_ << ")" << endl;
+                cout << "- Rating: 80% (you have " << store_.GetRating() << "%)" << endl;
+            } else if (current_level == 3) {
+                cout << "- Revenue: $5000 (you have $" << fixed << setprecision(0) << total_revenue_ << ")" << endl;
+                cout << "- Rating: 90% (you have " << store_.GetRating() << "%)" << endl;
+            }
+            cout << "\nRestarting Level " << current_level << "..." << endl;
+            cout << "Press Enter to try again...";
+            cin.get();
+            initialiseLevel();
+        }
+    }
+}
+
 // check win condition
 bool Game::checkWinCondition() {
     return store_.GetLevel() == 4 && store_.GetRating() >= 90;
@@ -430,13 +499,18 @@ void Game::exit() {
 
 // main game loop
 void Game::run() {
-    initializeGame();
+    initialiseGame();
     
-    while (game_running_ && orders_completed_ < 10) {  // limit to 10 orders for testing
+    while (game_running_) {
+        // check if level time is up
+        checkLevelComplete();
+        
         if (paused_) {
-            // handle pause menu (simplified for console)
-            resume(); // auto-resume for demo
+            resume();
         }
+        
+        // display level time remaining
+        displayLevelTimeRemaining();
         
         // get player actions step by step
         getPlayerActions();
@@ -462,11 +536,6 @@ void Game::run() {
             cout << "quitting game..." << endl;
             break;
         }
-    }
-    
-    if (orders_completed_ >= 10) {
-        cout << "\ngame completed! you served 10 customers!" << endl;
-        displayStatistics();
     }
 }
 

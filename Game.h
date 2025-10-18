@@ -26,17 +26,21 @@ private:
     bool paused_;
     int orders_completed_;
     double total_revenue_;
+    int level_time_remaining_;
+    int level_start_time_;
     
     // game state
-    void initializeGame();
+    void initialiseGame();
+    void initialiseLevel();
     void generateNewCustomer();
     void displayCustomerOrder();
     void displayGameStatus();
-    void displayTimeRemaining();
+    void displayLevelTimeRemaining();
     void processOrderSubmission();
     void calculateAndDisplayResults();
     void checkForLevelUp();
     void displayLevelUpNotification();
+    void checkLevelComplete();
     bool checkWinCondition();
     void displayVictoryScreen();
     
