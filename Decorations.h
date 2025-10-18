@@ -10,6 +10,9 @@ class Decorations {
   int no_of_decorations_ = 0;     // no of decor added
   const int kMaxDecorations = 4;   // max decorations per cake
 
+  //Vector of string
+  std::vector<std::string> decorationsList;
+
  public:
   Decorations() = default;
   virtual ~Decorations() = default;
