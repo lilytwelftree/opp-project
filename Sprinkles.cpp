@@ -1,53 +1,58 @@
-// Sprinkles.cpp
 #include "Sprinkles.h"
+
 #include <iostream>
 
 using namespace std;
 
-// Default constructor
-Sprinkles::Sprinkles() { 
-    toppingChoice = "Rainbow"; 
+// default constructor
+Sprinkles::Sprinkles() {
+  topping_choice_ = "Rainbow";
 }
 
-// Constructor with choice
+// constructor with choice
 Sprinkles::Sprinkles(const string& choice) {
-    toppingChoice = choice;
+  topping_choice_ = choice;
 }
 
-// Add pre-set sprinkles to cake
-void Sprinkles::applyDecoration() {
-    if (!toppingChoice.empty()) {
-        cout << "Applying sprinkles: " << toppingChoice << endl;
-    } else {
-        cout << "No sprinkles set to apply." << endl;
-    }
+// add pre-set sprinkles to cake
+void Sprinkles::ApplyDecoration() {
+  if (!topping_choice_.empty()) {
+    cout << "applying sprinkles: " << topping_choice_ << endl;
+  } else {
+    cout << "no sprinkles set to apply." << endl;
+  }
 }
 
-// Specify sprinkles type to other functions
-string Sprinkles::getDecorationChoice() const {
-    if (!toppingChoice.empty()) {
-        return toppingChoice;
-    }
-    return "None";
+// specify sprinkles type to other functions
+string Sprinkles::GetDecorationChoice() const {
+  if (!topping_choice_.empty()) {
+    return topping_choice_;
+  }
+  return "None";
 }
 
-// Control sprinkles type selected by player
-void Sprinkles::setDecorationChoice(const string& choice) {
-    if (AddDecorations()) {
-        toppingChoice = choice;
-        NoOfDecorations += 1;
-        cout << toppingChoice << " sprinkles were selected!" << endl;
-    } else {
-        cout << "Cake is full. Cannot add more sprinkles!" << endl;
-    }
+// control sprinkles type selected by player
+void Sprinkles::SetDecorationChoice(const string& choice) {
+  if (AddDecorations()) {
+    topping_choice_ = choice;
+    no_of_decorations_ += 1;
+    cout << topping_choice_ << " sprinkles were selected!" << endl;
+  } else {
+    cout << "cake is full. cannot add more sprinkles!" << endl;
+  }
 }
 
-// Check if sprinkles can be added
+// check if sprinkles can be added
 bool Sprinkles::AddSprinkles() {
-    return AddDecorations(); // Use parent class method
+  return AddDecorations();  // use parent class method
 }
 
-// Virtual destructor
+// virtual destructor
 Sprinkles::~Sprinkles() {
-    // Nothing to clean up
+  // nothing to clean up
+}
+
+// identify decoration type
+std::string Sprinkles::GetDecorationType() const {
+  return "sprinkles";
 }

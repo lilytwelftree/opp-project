@@ -1,85 +1,82 @@
-// Customer.cpp
 #include "Customer.h"
-#include <iostream>
+
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
+
+#include "Time.h"
 
 using namespace std;
 
-// Default constructor
+// constructor
 Customer::Customer() {
-    static int idCounter = 1;
-    customerID = idCounter++;
-    preferences = Order(); // Generate random order
-    timeLimit = Time();
+  static int id_counter = 1;
+  customer_id_ = id_counter++;
+  preferences_ = Order();  // generate random order
+  time_limit_ = Time();
 }
 
-// Constructor with ID
+// constructor with id
 Customer::Customer(int id) {
-    customerID = id;
-    preferences = Order(); // Generate random order
-    timeLimit = Time();
+  customer_id_ = id;
+  preferences_ = Order();  // generate random order
+  time_limit_ = Time();
 }
 
-// Update order request - generates new random order
-void Customer::updateRequest() {
-    preferences.generateRandomOrder();
-    cout << "Customer #" << customerID << " has a new order!" << endl;
+// update order request - generates new random order
+void Customer::UpdateRequest() {
+  preferences_.GenerateRandomOrder();
+  cout << "Customer #" << customer_id_ << " has a new order!" << endl;
 }
 
-// Set starting time limit based on store level
-void Customer::setTime(int level) {
-    int seconds;
-    switch(level) {
-        case 1: seconds = 180; break; // 3:00
-        case 2: seconds = 150; break; // 2:30
-        case 3: seconds = 120; break; // 2:00
-        case 4: seconds = 90; break;  // 1:30
-        default: seconds = 180; break;
-    }
-    timeLimit.setLimitSeconds(seconds);
-    cout << "Time limit set to " << seconds << " seconds for Level " << level << endl;
+// calculate and return customer review (1-5 stars)
+int Customer::GiveReview(int correct_items, int total_items, int time_remaining) {
+  if (total_items == 0) return 1;  // prevent division by zero
+
+  // calculate accuracy percentge
+  double accuracy = static_cast<double>(correct_items) / total_items;
+
+  // use time class methods directly
+  int total_time = time_limit_.GetLimitSeconds();
+  bool time_expired = !time_limit_.CheckTimeLimit();
+
+  // calculate time bonus based on whether time expired
+  double time_bonus = 0.0;
+  if (!time_expired && total_time > 0) {
+    time_bonus = static_cast<double>(time_remaining) / total_time;
+  }
+
+  // rating calculation: 60% accuracy, 40% time bonus
+  double rating = (accuracy * 3.0) + (time_bonus * 2.0);
+
+  // convert to 1-5 star scale
+  int stars = static_cast<int>(rating + 0.5);  // round to nearest integer
+  if (stars < 1) stars = 1;
+  if (stars > 5) stars = 5;
+
+  cout << "Customer #" << customer_id_ << " gives " << stars << " stars!" << endl;
+  if (time_expired) {
+    cout << "Time expired: " << time_limit_.AlertTimeExpired() << endl;
+  }
+  return stars;
 }
 
-// Calculate and return customer review (1-5 stars)
-int Customer::giveReview(int correctItems, int totalItems, int timeRemaining) {
-    if (totalItems == 0) return 1; // Prevent division by zero
-    
-    // Calculate accuracy percentage
-    double accuracy = (double)correctItems / totalItems;
-    
-    // Calculate time bonus (max 1.0 for having time left)
-    int totalTime = timeLimit.getLimitSeconds();
-    double timeBonus = (totalTime > 0) ? (double)timeRemaining / totalTime : 0.0;
-    
-    // Rating calculation: 60% accuracy, 40% time bonus
-    double rating = (accuracy * 3.0) + (timeBonus * 2.0);
-    
-    // Convert to 1-5 star scale
-    int stars = (int)(rating + 0.5); // Round to nearest integer
-    if (stars < 1) stars = 1;
-    if (stars > 5) stars = 5;
-    
-    cout << "Customer #" << customerID << " gives " << stars << " stars!" << endl;
-    return stars;
+// get customer's order preferences
+Order Customer::GetPreferences() const {
+  return preferences_;
 }
 
-// Get customer's order preferences
-Order Customer::getPreferences() const {
-    return preferences;
+// get time limit
+Time Customer::GetTimeLimit() const {
+  return time_limit_;
 }
 
-// Get time limit
-Time Customer::getTimeLimit() const {
-    return timeLimit;
+// get customer id
+int Customer::GetCustomerID() const {
+  return customer_id_;
 }
 
-// Get customer ID
-int Customer::getCustomerID() const {
-    return customerID;
-}
-
-// Destructor
+// destructor
 Customer::~Customer() {
-    // Nothing to clean up
+  // nothing to clean up
 }

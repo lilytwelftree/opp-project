@@ -4,20 +4,20 @@
 #include "Decorations.h"
 
 class Filling : public Decorations {
-protected:
-    std::string fillingChoice; // filling selected by player
+ protected:
+  std::string filling_choice_;  // filling selected by player
 
-public:
-    Filling();
-    explicit Filling(const std::string& choice);
+ public:
+  Filling();
+  explicit Filling(const std::string& choice);
 
-    void applyDecoration() override;
-    std::string getFillingChoice() const;
-    std::string getDecorationChoice() const override;
-    void setFillingChoice(const std::string& choice); // player sets filling
-    void setDecorationChoice(const std::string& choice) override;
-    std::string getDecorationType() const override; // returns "Filling"
-    ~Filling() override = default;
+  void ApplyDecoration() override;
+  std::string GetFillingChoice() const;
+  std::string GetDecorationChoice() const override;
+  void SetFillingChoice(const std::string& choice);  // player sets filling
+  void SetDecorationChoice(const std::string& choice) override;
+  std::string GetDecorationType() const override;  // returns "filling"
+  ~Filling() override = default;
 };
 
-#endif
+#endif  // FILLING_H

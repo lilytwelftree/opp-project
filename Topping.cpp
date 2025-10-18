@@ -1,50 +1,51 @@
 #include "Topping.h"
+
 #include <iostream>
 
 Topping::Topping() {
-    toppingType = "None";
+  topping_type_ = "None";
 }
 
 Topping::Topping(const std::string& choice) {
-    toppingType = choice;
-    decorationChoice = choice;
+  topping_type_ = choice;
+  decoration_choice_ = choice;
 }
 
-// Apply topping to cake
-void Topping::applyDecoration() {
-    if (!toppingType.empty() && toppingType != "None") {
-        std::cout << "Applying topping: " << toppingType << " to the cake.\n";
-    } else {
-        std::cout << "No topping selected.\n";
-    }
+// apply topping to cake
+void Topping::ApplyDecoration() {
+  if (!topping_type_.empty() && topping_type_ != "None") {
+    std::cout << "applying topping: " << topping_type_ << " to the cake.\n";
+  } else {
+    std::cout << "no topping selected.\n";
+  }
 }
 
-// Return topping name
-std::string Topping::getToppingType() const {
-    return toppingType;
+// return topping name
+std::string Topping::GetToppingType() const {
+  return topping_type_;
 }
 
-std::string Topping::getDecorationChoice() const {
-    return toppingType;
+std::string Topping::GetDecorationChoice() const {
+  return topping_type_;
 }
 
-// Sets topping and updates decoration count
-void Topping::setToppingType(const std::string& choice) {
-    if (AddDecorations()) {
-        toppingType = choice;
-        decorationChoice = choice;
-        NoOfDecorations++;
-        std::cout << "Topping chosen: " << choice << " added successfully.\n";
-    } else {
-        std::cout << "Cannot add more toppings, decoration limit reached.\n";
-    }
+// sets topping and updates decoration count
+void Topping::SetToppingType(const std::string& choice) {
+  if (AddDecorations()) {
+    topping_type_ = choice;
+    decoration_choice_ = choice;
+    no_of_decorations_++;
+    std::cout << "topping chosen: " << choice << " added successfully.\n";
+  } else {
+    std::cout << "cannot add more toppings, decoration limit reached.\n";
+  }
 }
 
-void Topping::setDecorationChoice(const std::string& choice) {
-    setToppingType(choice);
+void Topping::SetDecorationChoice(const std::string& choice) {
+  SetToppingType(choice);
 }
 
-// Idetnify decoration type
-std::string Topping::getDecorationType() const {
-    return "Topping";
+// idetnify decoration type
+std::string Topping::GetDecorationType() const {
+  return "topping";
 }

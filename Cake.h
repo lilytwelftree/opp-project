@@ -4,37 +4,38 @@
 #include <iostream>
 #include <string>
 #include <vector>
+
 #include "Decorations.h"
 
 class Cake {
-private:
-    std::string CakeFlavour;
-    std::vector<std::string> DecorationsList;
-    std::string currentFilling;
-    std::string currentTopping;
+ private:
+  std::string cake_flavour_;
+  std::vector<std::string> decorations_list_;
+  std::string current_filling_;
+  std::string current_topping_;
 
-public:
-    Cake();
-    explicit Cake(const std::string& flavour);
+ public:
+  Cake();
+  explicit Cake(const std::string& flavour);
 
-    // Flavour controsl
-    void setFlavour(const std::string& flavour);
-    void removeFlavour();
+  // flavour controls
+  void SetFlavour(const std::string& flavour);
+  void RemoveFlavour();
 
-    // Add decoration
-    void addDecoration(Decorations* decoration);
+  // add decoration
+  void AddDecoration(Decorations* decoration);
 
-    // Accessors
-    std::string getFlavour() const;
-    std::string getFilling() const;
-    std::string getTopping() const;
+  // accessors
+  std::string GetFlavour() const;
+  std::string GetFilling() const;
+  std::string GetTopping() const;
 
-    // Removal functions
-    void removeFilling();
-    void removeToping();
+  // removal functions
+  void RemoveFilling();
+  void RemoveTopping();
 
-    // Prnit summary of cake
-    void printCakeSummary() const;
+  // print summary of cake
+  void PrintCakeSummary() const;
 };
 
-#endif
+#endif  // CAKE_H

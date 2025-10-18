@@ -1,4 +1,4 @@
-// Order.cpp
+// order.cpp
 #include "Order.h"
 #include "Cake.h"
 #include <iostream>
@@ -7,98 +7,98 @@
 
 using namespace std;
 
-// Constructor
+// constructor
 Order::Order() {
-    srand(time(0)); // Seed random number generator
-    baseCost = 0.0;
-    generateRandomOrder();
+    srand(time(0)); // seed random number generator
+    base_cost_ = 0.0;
+    GenerateRandomOrder();
 }
 
-// Generate random cake flavour
-string Order::randomFlavour() {
+// generate random cake flavour
+string Order::RandomFlavour() {
     vector<string> flavours = {"Chocolate", "Vanilla", "Red Velvet", "Lemon"};
     int index = rand() % flavours.size();
     return flavours[index];
 }
 
-// Generate random filling
-string Order::randomFilling() {
+// generate random filling
+string Order::RandomFilling() {
     vector<string> fillings = {"Strawberry Jam", "Cream Cheese", "Chocolate Ganache", "Lemon Curd"};
     int index = rand() % fillings.size();
     return fillings[index];
 }
 
-// Generate random frosting
-string Order::randomFrosting() {
+// generate random frosting
+string Order::RandomFrosting() {
     vector<string> frostings = {"Vanilla Buttercream", "Chocolate Buttercream", 
                                 "Whipped Cream", "Cream Cheese Frosting"};
     int index = rand() % frostings.size();
     return frostings[index];
 }
 
-// Generate random sprinkles
-string Order::randomSprinkles() {
+// generate random sprinkles
+string Order::RandomSprinkles() {
     vector<string> sprinkles = {"Rainbow", "Chocolate", "Gold Flakes", "None"};
     int index = rand() % sprinkles.size();
     return sprinkles[index];
 }
 
-// Generate complete random order
-void Order::generateRandomOrder() {
-    requestFlavour = randomFlavour();
-    requestFilling = randomFilling();
-    requestFrosting = randomFrosting();
-    requestSprinkles = randomSprinkles();
-    baseCost = calculateTotalCost();
+// generate complete random order
+void Order::GenerateRandomOrder() {
+    request_flavour_ = RandomFlavour();
+    request_filling_ = RandomFilling();
+    request_frosting_ = RandomFrosting();
+    request_sprinkles_ = RandomSprinkles();
+    base_cost_ = CalculateTotalCost();
 }
 
-// Calculate total cost based on complexity
-double Order::calculateTotalCost() const {
-    double cost = 20.0; // Base price
+// calculate total cost based on complexity
+double Order::CalculateTotalCost() const {
+    double cost = 20.0; // base price
     
-    // Add costs based on selections
-    if (requestFlavour == "Red Velvet" || requestFlavour == "Lemon") cost += 5.0;
-    if (requestFilling == "Chocolate Ganache") cost += 8.0;
-    else if (requestFilling != "Strawberry Jam") cost += 5.0;
-    if (requestFrosting == "Cream Cheese Frosting") cost += 7.0;
+    // add costs based on selections
+    if (request_flavour_ == "Red Velvet" || request_flavour_ == "Lemon") cost += 5.0;
+    if (request_filling_ == "Chocolate Ganache") cost += 8.0;
+    else if (request_filling_ != "Strawberry Jam") cost += 5.0;
+    if (request_frosting_ == "Cream Cheese Frosting") cost += 7.0;
     else cost += 5.0;
-    if (requestSprinkles == "Gold Flakes") cost += 10.0;
-    else if (requestSprinkles != "None") cost += 3.0;
+    if (request_sprinkles_ == "Gold Flakes") cost += 10.0;
+    else if (request_sprinkles_ != "None") cost += 3.0;
     
     return cost;
 }
 
-// Check if submitted cake matches order
-bool Order::checkIsMatchCake(const Cake& submittedCake, int& correctItems) const {
-    correctItems = 0;
-    int totalItems = 4;
+// check if submitted cake matches order
+bool Order::CheckIsMatchCake(const Cake& submitted_cake, int& correct_items) const {
+    correct_items = 0;
+    int total_items = 4;
     
-    if (submittedCake.getFlavour() == requestFlavour) correctItems++;
-    if (submittedCake.getFilling() == requestFilling) correctItems++;
-    if (submittedCake.getFrosting() == requestFrosting) correctItems++;
-    if (submittedCake.getSprinkles() == requestSprinkles) correctItems++;
+    if (submitted_cake.GetFlavour() == request_flavour_) correct_items++;
+    if (submitted_cake.GetFilling() == request_filling_) correct_items++;
+    if (submitted_cake.GetTopping() == request_frosting_) correct_items++;
+    if (submitted_cake.GetTopping() == request_sprinkles_) correct_items++;
     
-    return (correctItems == totalItems);
+    return (correct_items == total_items);
 }
 
-// Display order details
-void Order::displayOrder() const {
-    cout << "\n===== CUSTOMER ORDER =====" << endl;
-    cout << "Flavour: " << requestFlavour << endl;
-    cout << "Filling: " << requestFilling << endl;
-    cout << "Frosting: " << requestFrosting << endl;
-    cout << "Sprinkles: " << requestSprinkles << endl;
-    cout << "Potential Revenue: $" << baseCost << endl;
+// display order details
+void Order::DisplayOrder() const {
+    cout << "\n===== customer order =====" << endl;
+    cout << "flavour: " << request_flavour_ << endl;
+    cout << "filling: " << request_filling_ << endl;
+    cout << "frosting: " << request_frosting_ << endl;
+    cout << "sprinkles: " << request_sprinkles_ << endl;
+    cout << "potential revenue: $" << base_cost_ << endl;
     cout << "=========================\n" << endl;
 }
 
-// Getters
-string Order::getRequestFlavour() const { return requestFlavour; }
-string Order::getRequestFilling() const { return requestFilling; }
-string Order::getRequestFrosting() const { return requestFrosting; }
-string Order::getRequestSprinkles() const { return requestSprinkles; }
+// getters
+string Order::GetRequestFlavour() const { return request_flavour_; }
+string Order::GetRequestFilling() const { return request_filling_; }
+string Order::GetRequestFrosting() const { return request_frosting_; }
+string Order::GetRequestSprinkles() const { return request_sprinkles_; }
 
-// Destructor
+// destructor
 Order::~Order() {
-    // Nothing to clean up
+    // nothing to clean up
 }

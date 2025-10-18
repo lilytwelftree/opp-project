@@ -1,20 +1,21 @@
 #include "Decorations.h"
+
 #include <iostream>
 
-// Returns true if cake can accept another decoration
+// returns true if cake can accept another decoration
 bool Decorations::AddDecorations() {
-    return NoOfDecorations < MAX_DECORATIONS;
+  return no_of_decorations_ < kMaxDecorations;
 }
 
-// Returns how many decorations have been added
-int Decorations::getNoOfDecorations() const {
-    return NoOfDecorations;
+// returns how many decorations have been added
+int Decorations::GetNoOfDecorations() const {
+  return no_of_decorations_;
 }
 
-// Prints decoration status
-void Decorations::showDecorationStatus() const {
-    std::cout << "Current decoration choice: "
-              << (decorationChoice.empty() ? "None" : decorationChoice)
-              << "\nDecorations used: " << NoOfDecorations
-              << " / " << MAX_DECORATIONS << std::endl;
+// prints decoration status
+void Decorations::ShowDecorationStatus() const {
+  std::cout << "current decoration choice: "
+            << (decoration_choice_.empty() ? "None" : decoration_choice_)
+            << "\ndecorations used: " << no_of_decorations_
+            << " / " << kMaxDecorations << std::endl;
 }

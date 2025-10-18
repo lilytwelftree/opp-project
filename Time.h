@@ -4,37 +4,47 @@
 #include <ctime>
 #include <iostream>
 #include <string>
+
 #include "Store.h"
 
 class Time {
  private:
-  // Time limit for each attempt
-  int limitSeconds;
+  // time limit for each attempt
+  int limit_seconds_;
 
-  // Time taken for each attempt
-  std::time_t startTime;
+  // time taken for each attempt
+  std::time_t start_time_;
 
-  // Store revenue
-  double Revenue;
+  // store revenue
+  double revenue_;
 
  public:
-  // Contructor
+  // constructor
   Time();
 
-  // Start timer
-  void startCountdown();
+  // start timer
+  void StartCountdown();
 
-  // Check if under time limit
-  bool checkTimeLimit();
+  // check if under time limit
+  bool CheckTimeLimit() const;
 
-  // Update time limit every time level updated
-  void updateTimeLimit(bool val);
+  // update time limit every time level updated
+  void UpdateTimeLimit(bool val);
 
-  // Display time
-  void displayTime();
+  // display time
+  void DisplayTime() const;
 
-  // Display time is done
-  std::string alertTimeExpired();
+  // display time is done
+  std::string AlertTimeExpired();
+
+  // set time limit
+  void SetLimitSeconds(int seconds);
+
+  // set time limit based on store level
+  void SetTimeLimitByLevel(int level);
+
+  // get time limit
+  int GetLimitSeconds() const;
 };
 
-#endif
+#endif  // TIME_H

@@ -1,92 +1,96 @@
 #include "Cake.h"
-#include "Filling.h"
-#include "Topping.h"
+
 #include <iostream>
 
+#include "Filling.h"
+#include "Topping.h"
+
 Cake::Cake() {
-    CakeFlavour = "None";
+  cake_flavour_ = "None";
 }
 
 Cake::Cake(const std::string& flavour) {
-    CakeFlavour = flavour;
+  cake_flavour_ = flavour;
 }
 
-// Sets cake flavour
-void Cake::setFlavour(const std::string& flavour) {
-    CakeFlavour = flavour;
-    std::cout << "Cake flavour set to: " << CakeFlavour << "\n";
+// sets cake flavour
+void Cake::SetFlavour(const std::string& flavour) {
+  cake_flavour_ = flavour;
+  std::cout << "Cake flavour set to: " << cake_flavour_ << "\n";
 }
 
-// Removes cake flavour
-void Cake::removeFlavour() {
-    CakeFlavour.clear();
-    std::cout << "Cake flavour removed.\n";
+// removes cake flavour
+void Cake::RemoveFlavour() {
+  cake_flavour_.clear();
+  std::cout << "Cake flavour removed.\n";
 }
 
-// Adds decoration
-void Cake::addDecoration(Decorations* decoration) {
-    if (!decoration) {
-        std::cout << "Invalid decoration provided.\n";
-        return;
+// adds decoration
+void Cake::AddDecoration(Decorations* decoration) {
+  if (!decoration) {
+    std::cout << "Invalid decoration provided.\n";
+    return;
+  }
+
+  decoration->ApplyDecoration();  // calls correct derived version
+  std::string choice = decoration->GetDecorationChoice();
+
+  if (!choice.empty()) {
+    decorations_list_.push_back(choice);
+  }
+
+  // identify decoration type and store accordingly
+  std::string type = decoration->GetDecorationType();
+  if (type == "Filling") {
+    current_filling_ = choice;
+  } else if (type == "Topping" || type == "Frosting" || type == "Sprinkles") {
+    current_topping_ = choice;
+  }
+
+  std::cout << choice << " added as a " << type << ".\n";
+}
+
+// return cake flavour
+std::string Cake::GetFlavour() const {
+  return cake_flavour_;
+}
+
+// return current filling
+std::string Cake::GetFilling() const {
+  return current_filling_;
+}
+
+// return current topping
+std::string Cake::GetTopping() const {
+  return current_topping_;
+}
+
+// remove filling from cake
+void Cake::RemoveFilling() {
+  current_filling_.clear();
+  std::cout << "Filling removed.\n";
+}
+
+// remove topping from cake
+void Cake::RemoveTopping() {
+  current_topping_.clear();
+  std::cout << "Topping removed.\n";
+}
+
+// print cake summary to terminal
+void Cake::PrintCakeSummary() const {
+  std::cout << "\n Cake Summary \n";
+  std::cout << "Flavour: " << (cake_flavour_.empty() ? "None" : cake_flavour_) << "\n";
+  std::cout << "Filling: " << (current_filling_.empty() ? "None" : current_filling_) << "\n";
+  std::cout << "Topping: " << (current_topping_.empty() ? "None" : current_topping_) << "\n";
+
+  std::cout << "Decorations: ";
+  if (decorations_list_.empty()) {
+    std::cout << "None\n";
+  } else {
+    for (const auto& d : decorations_list_) {
+      std::cout << d << " ";
     }
-
-    decoration->applyDecoration(); // Calls correct derived version
-    std::string choice = decoration->getDecorationChoice();
-
-    if (!choice.empty())
-        DecorationsList.push_back(choice);
-
-    // Identify decoration type and store accordingly
-    std::string type = decoration->getDecorationType();
-    if (type == "Filling") {
-        currentFilling = choice;
-    } else if (type == "Topping" || type == "Frosting" || type == "Sprinkles") {
-        currentTopping = choice;
-    }
-
-    std::cout << choice << " added as a " << type << ".\n";
-}
-
-// Return cake flavour
-std::string Cake::getFlavour() const {
-    return CakeFlavour;
-}
-
-// Return current filling
-std::string Cake::getFilling() const {
-    return currentFilling;
-}
-
-// Return current topping
-std::string Cake::getTopping() const {
-    return currentTopping;
-}
-
-// Remove filling from cake
-void Cake::removeFilling() {
-    currentFilling.clear();
-    std::cout << "Filling removed.\n";
-}
-
-// Remove topping from cake
-void Cake::removeToping() {
-    currentTopping.clear();
-    std::cout << "Topping removed.\n";
-}
-
-// Print cake summary to terminal
-void Cake::printCakeSummary() const {
-    std::cout << "\n Cake Summary \n";
-    std::cout << "Flavour: " << (CakeFlavour.empty() ? "None" : CakeFlavour) << "\n";
-    std::cout << "Filling: " << (currentFilling.empty() ? "None" : currentFilling) << "\n";
-    std::cout << "Topping: " << (currentTopping.empty() ? "None" : currentTopping) << "\n";
-
-    std::cout << "Decorations: ";
-    if (DecorationsList.empty()) {
-        std::cout << "None\n";
-    } else {
-        for (const auto& d : DecorationsList)
-            std::cout << d << " ";
-        std::cout << "\n";
-    }
+    std::cout << "\n";
+  }
 }

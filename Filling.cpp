@@ -1,51 +1,51 @@
 #include "Filling.h"
+
 #include <iostream>
 
 Filling::Filling() {
-    fillingChoice = "None";
+  filling_choice_ = "None";
 }
 
 Filling::Filling(const std::string& choice) {
-    fillingChoice = choice;
-    decorationChoice = choice;
+  filling_choice_ = choice;
+  decoration_choice_ = choice;
 }
 
-// Apply chosen filling to cake
-void Filling::applyDecoration() {
-    if (!fillingChoice.empty() && fillingChoice != "None") {
-        std::cout << "Adding filling: " << fillingChoice << " inside the cake.\n";
-    } else {
-        std::cout << "No filling selected.\n";
-    }
+// apply chosen filling to cake
+void Filling::ApplyDecoration() {
+  if (!filling_choice_.empty() && filling_choice_ != "None") {
+    std::cout << "adding filling: " << filling_choice_ << " inside the cake.\n";
+  } else {
+    std::cout << "no filling selected.\n";
+  }
 }
 
-// Returns selecteed filling
-std::string Filling::getFillingChoice() const {
-    return fillingChoice;
+// returns selected filling
+std::string Filling::GetFillingChoice() const {
+  return filling_choice_;
 }
 
-
-std::string Filling::getDecorationChoice() const {
-    return fillingChoice;
+std::string Filling::GetDecorationChoice() const {
+  return filling_choice_;
 }
 
-// Sets new filling and updates counter
-void Filling::setFillingChoice(const std::string& choice) {
-    if (AddDecorations()) {
-        fillingChoice = choice;
-        decorationChoice = choice;
-        NoOfDecorations++;
-        std::cout << "Filling selected: " << choice << " added successfully.\n";
-    } else {
-        std::cout << "Cannot add more fillings, decoration limit reached.\n";
-    }
+// sets new filling and updates counter
+void Filling::SetFillingChoice(const std::string& choice) {
+  if (AddDecorations()) {
+    filling_choice_ = choice;
+    decoration_choice_ = choice;
+    no_of_decorations_++;
+    std::cout << "filling selected: " << choice << " added successfully.\n";
+  } else {
+    std::cout << "cannot add more fillings, decoration limit reached.\n";
+  }
 }
 
-void Filling::setDecorationChoice(const std::string& choice) {
-    setFillingChoice(choice);
+void Filling::SetDecorationChoice(const std::string& choice) {
+  SetFillingChoice(choice);
 }
 
-// Identify decoration type
-std::string Filling::getDecorationType() const {
-    return "Filling";
+// identify decoration type
+std::string Filling::GetDecorationType() const {
+  return "filling";
 }

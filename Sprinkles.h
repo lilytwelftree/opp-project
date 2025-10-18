@@ -1,33 +1,36 @@
-// Sprinkles.h
 #ifndef SPRINKLES_H
 #define SPRINKLES_H
 
 #include <string>
+
 #include "Decorations.h"
 
 class Sprinkles : public Decorations {
-protected:
-    std::string toppingChoice;
-    
-public:
-    // Constructor
-    Sprinkles();
-    Sprinkles(const std::string& choice);
-    
-    // Add pre-set sprinkles to cake
-    void applyDecoration() override;
-    
-    // Specify sprinkles type to other functions
-    std::string getDecorationChoice() const override;
-    
-    // Control sprinkles type selected by player
-    void setDecorationChoice(const std::string& choice) override;
-    
-    // Function to add only 1 sprinkle type
-    bool AddSprinkles();
-    
-    // Virtual destructor
-    virtual ~Sprinkles();
+ protected:
+  std::string topping_choice_;
+
+ public:
+  // constructor
+  Sprinkles();
+  explicit Sprinkles(const std::string& choice);
+
+  // add pre-set sprinkles to cake
+  void ApplyDecoration() override;
+
+  // specify sprinkles type to other functions
+  std::string GetDecorationChoice() const override;
+
+  // control sprinkles type selected by player
+  void SetDecorationChoice(const std::string& choice) override;
+
+  // identify decoration type
+  std::string GetDecorationType() const override;
+
+  // function to add only 1 sprinkle type
+  bool AddSprinkles();
+
+  // virtual destructor
+  virtual ~Sprinkles();
 };
 
-#endif
+#endif  // SPRINKLES_H

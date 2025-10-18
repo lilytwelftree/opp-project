@@ -4,20 +4,20 @@
 #include "Decorations.h"
 
 class Topping : public Decorations {
-protected:
-    std::string toppingType; // topping name chosen
+ protected:
+  std::string topping_type_;  // topping name chosen
 
-public:
-    Topping();
-    explicit Topping(const std::string& choice);
+ public:
+  Topping();
+  explicit Topping(const std::string& choice);
 
-    void applyDecoration() override; 
-    std::string getToppingType() const;
-    std::string getDecorationChoice() const override;
-    void setToppingType(const std::string& choice); // player sets toppinng
-    void setDecorationChoice(const std::string& choice) override;
-    std::string getDecorationType() const override; // returns "Topping"
-    ~Topping() override = default;
+  void ApplyDecoration() override;
+  std::string GetToppingType() const;
+  std::string GetDecorationChoice() const override;
+  void SetToppingType(const std::string& choice);  // player sets topping
+  void SetDecorationChoice(const std::string& choice) override;
+  std::string GetDecorationType() const override;  // returns "topping"
+  ~Topping() override = default;
 };
 
-#endif
+#endif  // TOPPING_H
