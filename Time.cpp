@@ -5,49 +5,52 @@
 #include "Store.h"
 
 using namespace std;
-// Contructor
+
+// constructor
 Time::Time() {
-  // Set initiall time of 2 mins
-  limitSeconds = 120;
-  startTime = time(0);
+  // set initial time of 2 mins
+  limit_seconds_ = 120;
+  start_time_ = time(0);
 }
 
-// Start timer
-void Time::startCountdown() { startTime = time(0); }
-// Check if under time limit
-bool Time::checkTimeLimit() {
+// start timer
+void Time::StartCountdown() {
+  start_time_ = time(0);
+}
+
+// check if under time limit
+bool Time::CheckTimeLimit() const {
   time_t current = time(0);
 
-  // Calculate time taken
-  time_t taken = difftime(current, startTime);
+  // calculate time taken
+  time_t taken = difftime(current, start_time_);
 
-  // Check if lesser than limit
-  if (taken <= limitSeconds) {
+  // check if less than limit
+  if (taken <= limit_seconds_) {
     return true;
   }
 
   return false;
 }
 
-// Update time limit every time level updated
-void Time::updateTimeLimit(bool val) {
-
-  //Use value from store function
+// update time limit every time level updated
+void Time::UpdateTimeLimit(bool val) {
+  // use value from store function
   if (val) {
-    if (limitSeconds > 40) {
-      limitSeconds -= 15;
+    if (limit_seconds_ > 40) {
+      limit_seconds_ -= 15;
     }
   }
 
   // display
-  cout << "New time limit: " << limitSeconds << " seconds" << endl;
+  cout << "New time limit: " << limit_seconds_ << " seconds" << endl;
 }
 
-// Display time
-void Time::displayTime() {
+// display time
+void Time::DisplayTime() const {
   time_t current = time(0);
-  int elapsed = static_cast<int>(difftime(current, startTime));
-  int remaining = limitSeconds - elapsed;
+  int elapsed = static_cast<int>(difftime(current, start_time_));
+  int remaining = limit_seconds_ - elapsed;
 
   if (remaining < 0) {
     remaining = 0;
@@ -56,10 +59,46 @@ void Time::displayTime() {
   cout << "Time left: " << remaining << " seconds" << endl;
 }
 
-// Display time is done
-std::string Time::alertTimeExpired() {
-  if (!checkTimeLimit()) {
+// display time is done
+std::string Time::AlertTimeExpired() {
+  if (!CheckTimeLimit()) {
     return "Time is up!";
   }
   return "Time still left";
+}
+
+// set time limit
+void Time::SetLimitSeconds(int seconds) {
+  //Exception handling: Invalid input
+  if (seconds <= 40){
+    throw invalid_argument("Error in time limit.");
+  }
+
+  limit_seconds_ = seconds;
+}
+
+// set time limit based on store level
+void Time::SetTimeLimitByLevel(int level) {
+  // start with base time of 180 seconds
+  limit_seconds_ = 180;
+
+  //Exception handling: Invalid input
+  if (level < 0){
+    throw runtime_error("Error in time limit. Cannot be lesser than 40 seconds.");
+  }
+
+  // reduce by 15 seconds for each level above 1
+  for (int i = 2; i <= level; i++) {
+    if (limit_seconds_ > 40) {  // don't go below 40 seconds
+      limit_seconds_ -= 15;
+    }
+  }
+
+  StartCountdown();
+  cout << "Time limit set to " << limit_seconds_ << " seconds for Level " << level << endl;
+}
+
+// get time limit
+int Time::GetLimitSeconds() const {
+  return limit_seconds_;
 }

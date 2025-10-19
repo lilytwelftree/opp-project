@@ -4,31 +4,34 @@
 #include <iostream>
 #include <string>
 
-//Will work once integrated
 #include "Decorations.h"
 
-class Frosting: public Decorations {
-    protected:
-    std::string toppingChoice;
+class Frosting : public Decorations {
+ protected:
+  std::string topping_choice_;
 
-    public:
-    //Constructor
-    Frosting() = default;
+ public:
+  // constructor
+  Frosting();
+  explicit Frosting(const std::string& topping_choice);
 
-    //Add pre-set frosting to cake
-    void applyDecoration() override;
+  // add pre-set frosting to cake
+  void ApplyDecoration() override;
 
-    //Specify frosting type to other functions
-    std::string getDecorationChoice() const override;
+  // specify frosting type to other functions
+  std::string GetDecorationChoice() const override;
 
-    //Control frosting type selected by player
-    void setDecorationChoice(const std::string& choice) override;
+  // control frosting type selected by player
+  void SetDecorationChoice(const std::string& choice) override;
 
-    //Function to add only 1 function
-    bool AddFrosting();
+  // identify decoration type
+  std::string GetDecorationType() const override;
 
-    //Virtual destructor
-    virtual ~Frosting();
+  // function to add only 1 function
+  bool AddFrosting();
+
+  // virtual destructor
+  virtual ~Frosting();
 };
 
-#endif
+#endif  // FROSTING_H

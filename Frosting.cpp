@@ -6,52 +6,60 @@
 #include "Store.h"
 #include "Time.h"
 
-
 using namespace std;
-// Default contructor
-Frosting::Frosting() { toppingChoice = "Vanilla"; }
 
-// Constructor
-Frosting::Frosting(string toppingChoice) {
-  this->toppingChoice = toppingChoice;
+// default constructor
+Frosting::Frosting() {
+  topping_choice_ = "Vanilla";
 }
 
-// Add pre-set frosting to cake
-void Frosting::applyDecoration(){
-    //Chnage array name
-    if (!toppingChoice.empty()) {
-        cout << "Applying frosting: " << toppingChoice << endl;
-    } else {
-        cout << "No frosting set to apply." << endl;
-    }
+// constructor
+Frosting::Frosting(const string& topping_choice) {
+  //Exception handling: Empty input
+  if (topping_choice.empty()){
+    throw invalid_argument("Error:Frosting is empty.");
+  }
+
+  this->topping_choice_ = topping_choice;
+  decoration_choice_ = topping_choice;
 }
 
-// Specify frosting type to other functions
-std::string Frosting::getDecorationChoice() const { 
-    //Array name need to change
-    if (!toppingChoice.empty()){
-    cout << toppingChoice << " frosting was seleted." << endl;
-    }
-}
-
-// Control frosting type selected by player
-void Frosting::setDecorationChoice(const string& choice) {
-  if (AddDecorations()) {
-    Frosting(toppingChoice);
-
-    //Change to match name of array
-    Decorations.push_back();
-
-    //Update no of decorations, change name to amtch decorations
-    NoOfDecorations += 1;
-    cout << toppingChoice << " frosting was seected!" << endl;
+// add pre-set frosting to cake
+void Frosting::ApplyDecoration() {
+  // change array name (old comment)
+  if (!topping_choice_.empty()) {
+    cout << "applying frosting: " << topping_choice_ << endl;
   } else {
-    //If array empty
-    cout << "Cake is full. Cannot add more frosting!" << endl;
+    cout << "no frosting set to apply." << endl;
   }
 }
 
-// Virtual destructor
+// specify frosting type to other functions
+std::string Frosting::GetDecorationChoice() const {
+  if (!topping_choice_.empty()) {
+    return topping_choice_;
+  }
+  return "None";
+}
+
+// control frosting type selected by player
+void Frosting::SetDecorationChoice(const string& choice) {
+  if (AddDecorations()) {
+    topping_choice_ = choice;
+    no_of_decorations_ += 1;
+    cout << topping_choice_ << " frosting was selected!" << endl;
+  } else {
+    // if array empty
+    cout << "cake is full. cannot add more frosting!" << endl;
+  }
+}
+
+// virtual destructor
 Frosting::~Frosting() {
-  // Nothing to add
+  // nothing to add
+}
+
+// identify decoration type
+std::string Frosting::GetDecorationType() const {
+  return "frosting";
 }

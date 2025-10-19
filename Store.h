@@ -6,40 +6,38 @@
 
 class Store {
  private:
-  // Store levels
-  int level;
+  // store levels
+  int level_;
 
-  // Store rating
-  int rating;
+  // store rating
+  int rating_;
 
-  // Store revenue
-  double revenue;
+  // store revenue
+  double revenue_;
 
  public:
-  // Constructor
+  // constructor
   Store();
 
-  // Control plater rating
-  void updateRating(int rating);
+  // control player rating
+  void UpdateRating(int rating);
 
-  // Control player level
-  void updateLevel(int level);
+  // control player level
+  void UpdateLevel(int level);
 
-  // Control player revenue
-  void updateRevenue(double revenue);
+  // control player revenue
+  void UpdateRevenue(double revenue);
 
-  // Check if elligible for upgrade
-  bool checkUpdgrade(int rating, double revenue, int level);
+  // check if eligible for upgrade
+  bool CheckUpgrade(int rating, double revenue, int level);
 
-  // Control store
-  void upgradeStore(bool val);
+  // control store
+  void UpgradeStore(bool val);
 
-  //get set
-  int getRating();
-  int getLevel();
-  double getRevenue();
+  // getters
+  int GetRating() const;
+  int GetLevel() const;
+  double GetRevenue() const;
 };
 
-#endif
-
-// time, frosting
+#endif  // STORE_H
