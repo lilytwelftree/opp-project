@@ -20,4 +20,4 @@ class Filling : public Decorations {
   ~Filling() override = default;
 };
 
-#endif  // FILLING_H
+#endif

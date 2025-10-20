@@ -2,16 +2,14 @@
 
 #include <iostream>
 
-Filling::Filling() {
-  filling_choice_ = "None";
-}
+Filling::Filling() { filling_choice_ = "None"; }
 
 Filling::Filling(const std::string& choice) {
-  //Exception handling: Empty input
-  if (choice.empty()){
+  // Exception handling: Empty input
+  if (choice.empty()) {
     throw std::invalid_argument("Error:Filling is empty.");
   }
-  
+
   filling_choice_ = choice;
   decoration_choice_ = choice;
 }
@@ -26,13 +24,9 @@ void Filling::ApplyDecoration() {
 }
 
 // returns selected filling
-std::string Filling::GetFillingChoice() const {
-  return filling_choice_;
-}
+std::string Filling::GetFillingChoice() const { return filling_choice_; }
 
-std::string Filling::GetDecorationChoice() const {
-  return filling_choice_;
-}
+std::string Filling::GetDecorationChoice() const { return filling_choice_; }
 
 // sets new filling and updates counter
 void Filling::SetFillingChoice(const std::string& choice) {
@@ -51,6 +45,4 @@ void Filling::SetDecorationChoice(const std::string& choice) {
 }
 
 // identify decoration type
-std::string Filling::GetDecorationType() const {
-  return "filling";
-}
+std::string Filling::GetDecorationType() const { return "filling"; }

@@ -2,16 +2,14 @@
 
 #include <iostream>
 
-Topping::Topping() {
-  topping_type_ = "None";
-}
+Topping::Topping() { topping_type_ = "None"; }
 
 Topping::Topping(const std::string& choice) {
-  //Exception handling: Empty input
-  if (choice.empty()){
+  // Exception handling: Empty input
+  if (choice.empty()) {
     throw std::invalid_argument("Error:Filling is empty.");
   }
-  
+
   topping_type_ = choice;
   decoration_choice_ = choice;
 }
@@ -26,13 +24,9 @@ void Topping::ApplyDecoration() {
 }
 
 // return topping name
-std::string Topping::GetToppingType() const {
-  return topping_type_;
-}
+std::string Topping::GetToppingType() const { return topping_type_; }
 
-std::string Topping::GetDecorationChoice() const {
-  return topping_type_;
-}
+std::string Topping::GetDecorationChoice() const { return topping_type_; }
 
 // sets topping and updates decoration count
 void Topping::SetToppingType(const std::string& choice) {
@@ -51,6 +45,4 @@ void Topping::SetDecorationChoice(const std::string& choice) {
 }
 
 // idetnify decoration type
-std::string Topping::GetDecorationType() const {
-  return topping_type_;
-}
+std::string Topping::GetDecorationType() const { return topping_type_; }

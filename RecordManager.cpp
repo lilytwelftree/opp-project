@@ -1,14 +1,15 @@
+#include "RecordManager.h"
+
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
-#include "RecordManager.h"
-#include "Game.h"
-#include "Store.h"
 #include "Customer.h"
+#include "Game.h"
 #include "Order.h"
+#include "Store.h"
 
 using namespace std;
 
@@ -16,44 +17,58 @@ using namespace std;
 RecordManager::RecordManager(const string& file) : fileName(file) {}
 
 // Function to write game details
-void RecordManager::saveGame(Game& game) {
-    ofstream savedGame(fileName);  // Changed from ifstream to ofstream
-    if (!savedGame.is_open()) {
-        throw runtime_error("Error: Cannot write to file: " + fileName);
-    }
+void RecordManager::saveGame(Game& game, const Store& store_) {
+  // Open file to write
+  ofstream savedGame(fileName);
 
-    int level = game.getLevel();
-    int rating = game.getRating();
-    int revenue = static_cast<int>(game.getRevenue());
+  // Exception handling
+  if (!savedGame.is_open()) {
+    throw runtime_error("Error: Cannot write to file: " + fileName);
+  }
 
-    savedGame << level << endl;
-    savedGame << rating << endl;
-    savedGame << revenue << endl;
+  // Write to file for each variables
+  savedGame << "Level: " << store_.GetLevel() << " "
+            << "Ratings: " << store_.GetRating() << " "
+            << "Revenue: " << store_.GetRevenue() << " "
+            << "Number of orders completed: " << game.getOrdersCompleted()
+            << endl;
 
+  // Close file
+  savedGame.close();
 
-    savedGame.close();
+  // Display status to user
+  cout << "Game progress saved!" << endl;
 }
 
 // Function to load game with existing details
-void RecordManager::loadGame(Game& game) {
-    ifstream load(fileName);
-    if (!load.is_open()) {
-        throw runtime_error("Error: Cannot open file for reading: " + fileName);
-    }
+void RecordManager::loadGame(Game& game, Store& store_) {
+  // Open file to read data
+  ifstream load(fileName);
 
-    int level;
-    int rating;
-    double revenue;
+  // Exception handling: run-time error
+  if (!load.is_open()) {
+    throw runtime_error("Error: Cannot open file for reading: " + fileName);
+  }
 
-    load >> level >> rating >> revenue;
+  int level = 0;
+  int rating = 0;
+  double revenue = 0.0;
+  int noOfOrder = 0;
 
-    if (load.fail()) {
-        throw runtime_error("Error: Failed to read data from file.");
-    }
+  load >> level >> rating >> revenue >> noOfOrder;
 
-    // game.setLevel(level);
-    // game.setRating(rating);
-    // game.setRevenue(revenue);
+  if (load.fail()) {
+    throw runtime_error("Error: Failed to read data from file.");
+  }
 
-    load.close();
+  // Load data into Game
+  store_.UpdateLevel(level);
+  store_.UpdateRating(rating);
+  store_.UpdateRevenue(revenue);
+
+  // Display status to user
+  cout << "Game data has successfully ben added!" << endl;
+
+  // Close file
+  load.close();
 }

@@ -47,4 +47,4 @@ class Time {
   int GetLimitSeconds() const;
 };
 
-#endif  // TIME_H
+#endif

@@ -18,8 +18,8 @@ Customer::Customer() {
 
 // constructor with id
 Customer::Customer(int id) {
-  //Exception handling: Invalid Input
-  if (id <= 0){
+  // Exception handling: Invalid Input
+  if (id <= 0) {
     throw std::invalid_argument("Error: Customer ID invalid.");
   }
   customer_id_ = id;
@@ -34,9 +34,10 @@ void Customer::UpdateRequest() {
 }
 
 // calculate and return customer review (1-5 stars)
-int Customer::GiveReview(int correct_items, int total_items, int time_remaining) {
-  //Exception handling: Invalid Input
-  if (correct_items < 0 || total_items < 0 || time_remaining < 0){
+int Customer::GiveReview(int correct_items, int total_items,
+                         int time_remaining) {
+  // Exception handling: Invalid Input
+  if (correct_items < 0 || total_items < 0 || time_remaining < 0) {
     throw std::invalid_argument("Error: Parameters invalid.");
   }
 
@@ -48,13 +49,12 @@ int Customer::GiveReview(int correct_items, int total_items, int time_remaining)
   // use time class methods directly
   int total_time = time_limit_.GetLimitSeconds();
 
-  //Exception handling: run time
-  if (total_time <= 40){
+  // Exception handling: run time
+  if (total_time <= 40) {
     throw std::runtime_error("Error:Invalid time limit in Customer.");
   }
-  
-  bool time_expired = !time_limit_.CheckTimeLimit();
 
+  bool time_expired = !time_limit_.CheckTimeLimit();
 
   // calculate time bonus based on whether time expired
   double time_bonus = 0.0;
@@ -70,7 +70,8 @@ int Customer::GiveReview(int correct_items, int total_items, int time_remaining)
   if (stars < 1) stars = 1;
   if (stars > 5) stars = 5;
 
-  cout << "Customer #" << customer_id_ << " gives " << stars << " stars!" << endl;
+  cout << "Customer #" << customer_id_ << " gives " << stars << " stars!"
+       << endl;
   if (time_expired) {
     cout << "Time expired: " << time_limit_.AlertTimeExpired() << endl;
   }
@@ -78,19 +79,13 @@ int Customer::GiveReview(int correct_items, int total_items, int time_remaining)
 }
 
 // get customer's order preferences
-Order Customer::GetPreferences() const {
-  return preferences_;
-}
+Order Customer::GetPreferences() const { return preferences_; }
 
 // get time limit
-Time Customer::GetTimeLimit() const {
-  return time_limit_;
-}
+Time Customer::GetTimeLimit() const { return time_limit_; }
 
 // get customer id
-int Customer::GetCustomerID() const {
-  return customer_id_;
-}
+int Customer::GetCustomerID() const { return customer_id_; }
 
 // destructor
 Customer::~Customer() {

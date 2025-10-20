@@ -5,13 +5,11 @@
 #include "Filling.h"
 #include "Topping.h"
 
-Cake::Cake() {
-  cake_flavour_ = "None";
-}
+Cake::Cake() { cake_flavour_ = "None"; }
 
 Cake::Cake(const std::string& flavour) {
-  //Exception handling: Empty input
-  if (flavour.empty()){
+  // Exception handling: Empty input
+  if (flavour.empty()) {
     throw std::invalid_argument("Error: Cake flavour is empty.");
   }
   cake_flavour_ = flavour;
@@ -19,8 +17,8 @@ Cake::Cake(const std::string& flavour) {
 
 // sets cake flavour
 void Cake::SetFlavour(const std::string& flavour) {
-  //Exception handling: Empty input
-  if (flavour.empty()){
+  // Exception handling: Empty input
+  if (flavour.empty()) {
     throw std::invalid_argument("Error: Cake flavour is empty.");
   }
 
@@ -46,9 +44,8 @@ void Cake::AddDecoration(Decorations* decoration) {
 
   if (!choice.empty()) {
     decorations_list_.push_back(choice);
-  }
-  else {
-    //Exception Hanlding: Run-time error
+  } else {
+    // Exception Hanlding: Run-time error
     throw std::runtime_error("Error: Choice empty after adding to array.");
   }
 
@@ -68,29 +65,19 @@ void Cake::AddDecoration(Decorations* decoration) {
 }
 
 // return cake flavour
-std::string Cake::GetFlavour() const {
-  return cake_flavour_;
-}
+std::string Cake::GetFlavour() const { return cake_flavour_; }
 
 // return current filling
-std::string Cake::GetFilling() const {
-  return current_filling_;
-}
+std::string Cake::GetFilling() const { return current_filling_; }
 
 // return current frosting
-std::string Cake::GetFrosting() const {
-  return current_frosting_;
-}
+std::string Cake::GetFrosting() const { return current_frosting_; }
 
 // return current sprinkles
-std::string Cake::GetSprinkles() const {
-  return current_sprinkles_;
-}
+std::string Cake::GetSprinkles() const { return current_sprinkles_; }
 
 // return current topping
-std::string Cake::GetTopping() const {
-  return current_topping_;
-}
+std::string Cake::GetTopping() const { return current_topping_; }
 
 // remove filling from cake
 void Cake::RemoveFilling() {
@@ -107,9 +94,15 @@ void Cake::RemoveTopping() {
 // print cake summary to terminal
 void Cake::PrintCakeSummary() const {
   std::cout << "\n Cake Summary \n";
-  std::cout << "Flavour: " << (cake_flavour_.empty() ? "None" : cake_flavour_) << "\n";
-  std::cout << "Filling: " << (current_filling_.empty() ? "None" : current_filling_) << "\n";
-  std::cout << "Frosting: " << (current_frosting_.empty() ? "None" : current_frosting_) << "\n";
-  std::cout << "Sprinkles: " << (current_sprinkles_.empty() ? "None" : current_sprinkles_) << "\n";
-  std::cout << "Topping: " << (current_topping_.empty() ? "None" : current_topping_) << "\n";
+  std::cout << "Flavour: " << (cake_flavour_.empty() ? "None" : cake_flavour_)
+            << "\n";
+  std::cout << "Filling: "
+            << (current_filling_.empty() ? "None" : current_filling_) << "\n";
+  std::cout << "Frosting: "
+            << (current_frosting_.empty() ? "None" : current_frosting_) << "\n";
+  std::cout << "Sprinkles: "
+            << (current_sprinkles_.empty() ? "None" : current_sprinkles_)
+            << "\n";
+  std::cout << "Topping: "
+            << (current_topping_.empty() ? "None" : current_topping_) << "\n";
 }

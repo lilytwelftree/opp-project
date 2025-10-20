@@ -40,4 +40,4 @@ class Store {
   double GetRevenue() const;
 };
 
-#endif  // STORE_H
+#endif

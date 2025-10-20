@@ -13,8 +13,8 @@ Store::Store() {
 
 // control player rating
 void Store::UpdateRating(int new_rating) {
-  //Exception handling: Invalid input
-  if (new_rating < 0){
+  // Exception handling: Invalid input
+  if (new_rating < 0) {
     throw invalid_argument("Rating cannot be negative.");
   }
   rating_ = new_rating;
@@ -22,8 +22,8 @@ void Store::UpdateRating(int new_rating) {
 
 // control player level
 void Store::UpdateLevel(int new_level) {
-  //Exception handling: Invalid input
-  if (new_level <= 0){
+  // Exception handling: Invalid input
+  if (new_level <= 0) {
     throw invalid_argument("Error: Levels cannot be negative.");
   }
   level_ = new_level;
@@ -31,7 +31,7 @@ void Store::UpdateLevel(int new_level) {
 
 // control player revenue
 void Store::UpdateRevenue(double new_revenue) {
-  if (new_revenue <= 0){
+  if (new_revenue <= 0) {
     throw invalid_argument("Error: Revenue cannot be negative.");
   }
   revenue_ += new_revenue;
@@ -65,14 +65,8 @@ void Store::UpgradeStore(bool val) {
 }
 
 // getters
-int Store::GetRating() const {
-  return rating_;
-}
+int Store::GetRating() const { return rating_; }
 
-int Store::GetLevel() const {
-  return level_;
-}
+int Store::GetLevel() const { return level_; }
 
-double Store::GetRevenue() const {
-  return revenue_;
-}
+double Store::GetRevenue() const { return revenue_; }

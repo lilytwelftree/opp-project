@@ -20,4 +20,4 @@ class Topping : public Decorations {
   ~Topping() override = default;
 };
 
-#endif  // TOPPING_H
+#endif

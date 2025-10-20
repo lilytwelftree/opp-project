@@ -53,4 +53,4 @@ class Order {
   ~Order();
 };
 
-#endif  // ORDER_H
+#endif
