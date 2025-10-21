@@ -34,4 +34,4 @@ class Frosting : public Decorations {
   virtual ~Frosting();
 };
 
-#endif  // FROSTING_H
+#endif

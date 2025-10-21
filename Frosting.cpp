@@ -9,14 +9,12 @@
 using namespace std;
 
 // default constructor
-Frosting::Frosting() {
-  topping_choice_ = "Vanilla";
-}
+Frosting::Frosting() { topping_choice_ = "Vanilla"; }
 
 // constructor
 Frosting::Frosting(const string& topping_choice) {
-  //Exception handling: Empty input
-  if (topping_choice.empty()){
+  // Exception handling: Empty input
+  if (topping_choice.empty()) {
     throw invalid_argument("Error:Frosting is empty.");
   }
 
@@ -60,6 +58,4 @@ Frosting::~Frosting() {
 }
 
 // identify decoration type
-std::string Frosting::GetDecorationType() const {
-  return "frosting";
-}
+std::string Frosting::GetDecorationType() const { return "frosting"; }

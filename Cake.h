@@ -42,4 +42,4 @@ class Cake {
   void PrintCakeSummary() const;
 };
 
-#endif  // CAKE_H
+#endif

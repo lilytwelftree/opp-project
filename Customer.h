@@ -37,4 +37,4 @@ class Customer {
   ~Customer();
 };
 
-#endif  // CUSTOMER_H
+#endif

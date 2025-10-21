@@ -30,4 +30,4 @@ class Decorations {
   void ShowDecorationStatus() const;
 };
 
-#endif  // DECORATIONS_H
+#endif

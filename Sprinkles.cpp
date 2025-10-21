@@ -5,14 +5,12 @@
 using namespace std;
 
 // default constructor
-Sprinkles::Sprinkles() {
-  topping_choice_ = "Rainbow";
-}
+Sprinkles::Sprinkles() { topping_choice_ = "Rainbow"; }
 
 // constructor with choice
 Sprinkles::Sprinkles(const string& choice) {
-  //Exception handling: Empty input
-  if (choice.empty()){
+  // Exception handling: Empty input
+  if (choice.empty()) {
     throw invalid_argument("Error:Sprinkles is empty.");
   }
 
@@ -58,6 +56,4 @@ Sprinkles::~Sprinkles() {
 }
 
 // identify decoration type
-std::string Sprinkles::GetDecorationType() const {
-  return "sprinkles";
-}
+std::string Sprinkles::GetDecorationType() const { return "sprinkles"; }

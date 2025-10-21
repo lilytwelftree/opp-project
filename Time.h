@@ -50,4 +50,4 @@ class Time {
   int GetSecondsRemaining() const;
 };
 
-#endif  // TIME_H
+#endif

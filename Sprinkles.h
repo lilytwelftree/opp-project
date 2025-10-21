@@ -33,4 +33,4 @@ class Sprinkles : public Decorations {
   virtual ~Sprinkles();
 };
 
-#endif  // SPRINKLES_H
+#endif

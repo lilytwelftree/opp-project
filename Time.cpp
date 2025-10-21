@@ -14,9 +14,7 @@ Time::Time() {
 }
 
 // start timer
-void Time::StartCountdown() {
-  start_time_ = time(0);
-}
+void Time::StartCountdown() { start_time_ = time(0); }
 
 // check if under time limit
 bool Time::CheckTimeLimit() const {
@@ -69,8 +67,8 @@ std::string Time::AlertTimeExpired() {
 
 // set time limit
 void Time::SetLimitSeconds(int seconds) {
-  //Exception handling: Invalid input
-  if (seconds <= 40){
+  // Exception handling: Invalid input
+  if (seconds <= 40) {
     throw invalid_argument("Error in time limit.");
   }
 
@@ -82,9 +80,10 @@ void Time::SetTimeLimitByLevel(int level) {
   // start with base time of 180 seconds
   limit_seconds_ = 180;
 
-  //Exception handling: Invalid input
-  if (level < 0){
-    throw runtime_error("Error in time limit. Cannot be lesser than 40 seconds.");
+  // Exception handling: Invalid input
+  if (level < 0) {
+    throw runtime_error(
+        "Error in time limit. Cannot be lesser than 40 seconds.");
   }
 
   // reduce by 15 seconds for each level above 1
@@ -95,7 +94,8 @@ void Time::SetTimeLimitByLevel(int level) {
   }
 
   StartCountdown();
-  cout << "Time limit set to " << limit_seconds_ << " seconds for Level " << level << endl;
+  cout << "Time limit set to " << limit_seconds_ << " seconds for Level "
+       << level << endl;
 }
 
 // get time limit
