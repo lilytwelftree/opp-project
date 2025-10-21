@@ -1,12 +1,11 @@
 #include "RecordManager.h"
 
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include <filesystem>
-
 
 #include "Customer.h"
 #include "Game.h"
@@ -20,26 +19,31 @@ RecordManager::RecordManager(const string& file) : fileName(file) {}
 
 // Function to write game details
 void RecordManager::saveGame(Game& game, const Store& store_) {
-  // Open file to write
-  ofstream savedGame(fileName, ios::app);
+  // Create an ofstream object and open a file named "output.txt" for writing
+  std::ofstream outputFile("output.txt");
 
-  // Exception handling
-  if (!savedGame.is_open()) {
-    throw runtime_error("Error: Cannot write to file: " + fileName);
+  // Check if the file was successfully opened
+  if (outputFile.is_open()) {
+    // Write variables with current values
+    int level = store_.GetLevel();
+    int satisfaction = store_.GetRating();
+    int revenue = game.getTotalRevenue();
+    int noOfOrders = game.getOrdersCompleted();
+
+    // Save values into file
+    outputFile << "Level of player " << level << std::endl;
+    outputFile << "Satisfaction score: " << satisfaction << std::endl;
+    outputFile << "Revenue: " << revenue << std::endl;
+    outputFile << "Number of orders completed: " << noOfOrders << std::endl;
+
+    // Close the file
+    outputFile.close();
+
+    std::cout << "Data successfully written to output.txt" << std::endl;
+  } else {
+    // Print an error message
+    std::cerr << "Error: Unable to open file for writing." << std::endl;
   }
-
-  // Write to file for each variables
-  savedGame << "Level: " << store_.GetLevel() << " "
-            << "Ratings: " << store_.GetRating() << " "
-            << "Revenue: " << store_.GetRevenue() << " "
-            << "Number of orders completed: " << game.getOrdersCompleted()
-            << endl;
-
-  // Close file
-  savedGame.close();
-
-  // Display status to user
-  cout << "Game progress saved to " << fileName << endl;
 }
 
 // Function to load game with existing details

@@ -17,7 +17,7 @@ int main() {
   game.run();
 
   // Save to text file
-  RecordManager recordManager("savedFile.txt");
+  RecordManager recordManager("output.txt");
   recordManager.saveGame(game, game.store_);
 
   return 0;
