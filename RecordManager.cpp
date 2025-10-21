@@ -78,3 +78,4 @@ void RecordManager::loadGame(Game& game, Store& store_) {
   // Close file
   load.close();
 }
+
