@@ -9,11 +9,16 @@ int main() {
   // Show ASCII art first
   Draw drawer;
   drawer.WelcomeSequence();
-  
+
   cout << "press enter to start the game..." << endl;
   cin.get();
-  
+
   Game game;
   game.run();
+
+  // Save to text file
+  RecordManager recordManager("savedFile.txt");
+  recordManager.saveGame(game, game.store_);
+
   return 0;
 }
