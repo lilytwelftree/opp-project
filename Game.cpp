@@ -596,6 +596,7 @@ void Game::resume() {
 
 // exit game
 void Game::exit() {
+  manager.saveGame(*this, store_);
   game_running_ = false;
   cout << "thanks for playing!" << endl;
 }
