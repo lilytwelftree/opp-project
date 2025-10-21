@@ -12,6 +12,7 @@
 #include "Filling.h"
 #include "Frosting.h"
 #include "Order.h"
+#include "RecordManager.h"
 #include "Sprinkles.h"
 #include "Store.h"
 #include "Time.h"
@@ -19,7 +20,6 @@
 
 class Game {
  private:
-  Store store_;
   std::vector<std::unique_ptr<Customer>> customers_;
   std::unique_ptr<Customer> current_customer_;
   Cake current_cake_;
@@ -56,7 +56,19 @@ class Game {
   void addSprinkles();
 
  public:
+  // To read & load data
+  RecordManager manager;
+
+  // Create a store
+  Store store_;
+
+  // Default constructor
   Game();
+
+  // Contructor
+  Game(const std::string& savedFile);
+
+  // Destructor
   ~Game();
 
   // main game loop
@@ -73,6 +85,12 @@ class Game {
   bool isPaused() const;
   int getOrdersCompleted() const;
   double getTotalRevenue() const;
+
+  // setter for re-loading game
+  void setOrdersCompleted(int count);
+
+  // Loading data from external file
+  void loadGameData();
 };
 
 #endif

@@ -7,20 +7,35 @@
 #include <memory>
 
 #include "Draw.h"
+#include "RecordManager.h"
 
 using namespace std;
 
-// constructor
+// defaullt constructor
 Game::Game()
     : game_running_(false),
       paused_(false),
       orders_completed_(0),
       total_revenue_(0.0),
       level_time_remaining_(0),
-      level_start_time_(0) {
+      level_start_time_(0),
+      // De-fault save file
+      manager("savedFile.txt") {
   srand(time(0));  // seed random number generator
 }
 
+// constructor
+Game::Game(const std::string& savedFile)
+    : game_running_(false),
+      paused_(false),
+      orders_completed_(0),
+      total_revenue_(0.0),
+      level_time_remaining_(0),
+      level_start_time_(0),
+      // Load new file
+      manager(savedFile) {
+  srand(time(0));  // seed random number generator
+}
 // destructor
 Game::~Game() {
   // nothing to clean up
@@ -633,3 +648,17 @@ bool Game::isRunning() const { return game_running_; }
 bool Game::isPaused() const { return paused_; }
 int Game::getOrdersCompleted() const { return orders_completed_; }
 double Game::getTotalRevenue() const { return total_revenue_; }
+
+// setter for re-loading game
+void Game::setOrdersCompleted(int count) { orders_completed_ = count; }
+
+// Loading data from external file using exception handling to warn us
+void Game::loadGameData() {
+  try {
+    // This* refers to current object game
+    manager.loadGame(*this, store_);
+    cout << "Game successfully loaded!" << endl;
+  } catch (const std::exception& e) {
+    cerr << "Failed to load game due to: " << e.what() << endl;
+  }
+}
