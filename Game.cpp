@@ -21,8 +21,6 @@ Game::~Game() {
 // initialize game
 void Game::initialiseGame() {
     cout << "\n" << string(55, '=') << endl;
-    drawer.WelcomeSequence();
-    cout << string(55, '=') << endl;
     cout << "game initialized at store level 1" << endl;
     cout << "Starting metrics:" << endl;
     cout << "Revenue: $0" << endl;
@@ -465,7 +463,7 @@ void Game::displayVictoryScreen() {
     cout << "final satisfaction rating: " << store_.GetRating() << "%" << endl;
     cout << "final store level: " << store_.GetLevel() << endl;
     
-    cout << "\nthank you for playing cake shop simulation!" << endl;
+    cout << "\nthank you for playing cake shop!" << endl;
     drawer.GameOver();
 }
 

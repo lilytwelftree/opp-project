@@ -102,3 +102,10 @@ void Time::SetTimeLimitByLevel(int level) {
 int Time::GetLimitSeconds() const {
   return limit_seconds_;
 }
+
+int Time::GetSecondsRemaining() const {
+  time_t current = time(0);
+  int elapsed = static_cast<int>(difftime(current, start_time_));
+  int remaining = limit_seconds_ - elapsed;
+  return remaining < 0 ? 0 : remaining;
+}

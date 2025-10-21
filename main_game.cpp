@@ -1,10 +1,14 @@
 #include "Game.h"
+#include "Draw.h"
 #include <iostream>
 
 using namespace std;
 
 int main() {
-    cout << "🎂 cake shop simulation 🎂" << endl;
+    // Show ASCII art first
+    Draw drawer;
+    drawer.WelcomeSequence();
+
     cout << "press enter to start the game..." << endl;
     cin.get();
     

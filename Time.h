@@ -45,6 +45,9 @@ class Time {
 
   // get time limit
   int GetLimitSeconds() const;
+
+  // get remaining seconds (non-negative)
+  int GetSecondsRemaining() const;
 };
 
 #endif  // TIME_H

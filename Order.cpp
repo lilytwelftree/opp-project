@@ -56,7 +56,7 @@ void Order::GenerateRandomOrder() {
         throw std::runtime_error("Error: Generate Order is empty.");
     }
 
-    base_cost_ = CalculateTotalCost();
+  base_cost_ = CalculateTotalCost();
 }
 
 // calculate total cost based on complexity
@@ -86,6 +86,30 @@ bool Order::CheckIsMatchCake(const Cake& submitted_cake, int& correct_items) con
     if (submitted_cake.GetSprinkles() == request_sprinkles_) correct_items++;
     
     return (correct_items == total_items);
+}
+
+void Order::Score(const Cake& submitted_cake, int& matches_out, int& satisfaction_delta_out) const {
+  int matches = 0;
+  if (submitted_cake.GetFlavour() == request_flavour_) matches++;
+  if (submitted_cake.GetFilling() == request_filling_) matches++;
+  if (submitted_cake.GetFrosting() == request_frosting_) matches++;
+  if (submitted_cake.GetSprinkles() == request_sprinkles_) matches++;
+
+  int satisfaction_change = 0;
+  if (matches == 4) satisfaction_change = 10;
+  else if (matches == 3) satisfaction_change = 5;
+  else if (matches == 2) satisfaction_change = 0;
+  else if (matches == 1) satisfaction_change = -5;
+  else satisfaction_change = -10;
+
+  // Penalize missing components labelled "None"
+  if (submitted_cake.GetFlavour() == "None") satisfaction_change -= 10;
+  if (submitted_cake.GetFilling() == "None") satisfaction_change -= 10;
+  if (submitted_cake.GetFrosting() == "None") satisfaction_change -= 10;
+  if (submitted_cake.GetSprinkles() == "None") satisfaction_change -= 10;
+
+  matches_out = matches;
+  satisfaction_delta_out = satisfaction_change;
 }
 
 // display order details
