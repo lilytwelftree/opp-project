@@ -596,7 +596,6 @@ void Game::resume() {
 
 // exit game
 void Game::exit() {
-  manager.saveGame(*this, store_);
   game_running_ = false;
   cout << "thanks for playing!" << endl;
 }
@@ -639,6 +638,7 @@ void Game::run() {
     if (input == "q" || input == "quit") {
       cout << "quitting game..." << endl;
       drawer.GameOver();
+      manager.saveGame(*this, store_);
       break;
     }
   }
@@ -652,14 +652,3 @@ double Game::getTotalRevenue() const { return total_revenue_; }
 
 // setter for re-loading game
 void Game::setOrdersCompleted(int count) { orders_completed_ = count; }
-
-// Loading data from external file using exception handling to warn us
-void Game::loadGameData() {
-  try {
-    // This* refers to current object game
-    manager.loadGame(*this, store_);
-    cout << "Game successfully loaded!" << endl;
-  } catch (const std::exception& e) {
-    cerr << "Failed to load game due to: " << e.what() << endl;
-  }
-}

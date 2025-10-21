@@ -88,9 +88,6 @@ class Game {
 
   // setter for re-loading game
   void setOrdersCompleted(int count);
-
-  // Loading data from external file
-  void loadGameData();
 };
 
 #endif

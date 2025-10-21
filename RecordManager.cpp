@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <filesystem>
+
 
 #include "Customer.h"
 #include "Game.h"
@@ -19,7 +21,7 @@ RecordManager::RecordManager(const string& file) : fileName(file) {}
 // Function to write game details
 void RecordManager::saveGame(Game& game, const Store& store_) {
   // Open file to write
-  ofstream savedGame(fileName);
+  ofstream savedGame(fileName, ios::app);
 
   // Exception handling
   if (!savedGame.is_open()) {
@@ -37,7 +39,7 @@ void RecordManager::saveGame(Game& game, const Store& store_) {
   savedGame.close();
 
   // Display status to user
-  cout << "Game progress saved!" << endl;
+  cout << "Game progress saved to " << fileName << endl;
 }
 
 // Function to load game with existing details
