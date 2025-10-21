@@ -41,21 +41,7 @@ void Stock::InitializeStock() {
     inventory["Gold Flakes"] = 4;
     inventory["None"] = 999; // Always available
     
-    // Prices for purchasing (parallel arrays for simplicity)
-    // NOTE: Keep NAMES and VALUES orders in sync
-    static const char* PRICE_NAMES[] = {
-        "Chocolate", "Vanilla", "Red Velvet", "Lemon",
-        "Strawberry Jam", "Cream Cheese", "Chocolate Ganache", "Lemon Curd",
-        "Vanilla Buttercream", "Chocolate Buttercream", "Whipped Cream", "Cream Cheese Frosting",
-        "Rainbow", "Chocolate", "Gold Flakes", "None"
-    };
-    static const int PRICE_VALUES[] = {
-        25, 25, 35, 30,
-        30, 30, 30, 35,
-        20, 20, 25, 30,
-        15, 15, 20, 0
-    };
-    // No assignment here; GetPrice will read from these arrays
+    // Prices are defined globally above; GetPrice() reads from those arrays
 }
 
 bool Stock::UseIngredient(const std::string& ingredient) {

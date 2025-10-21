@@ -38,7 +38,7 @@ void Store::UpdateRevenue(double new_revenue) {
 }
 
 // check if eligible for upgrade
-bool Store::CheckUpgrade(int rating, double revenue, int level) {
+bool Store::CheckUpgrade(int rating, double revenue, int /* level */) {
   // set condtions for upgrade
   int rating_limit = 4;
   double money_limit = 15.0;

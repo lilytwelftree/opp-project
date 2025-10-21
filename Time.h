@@ -15,8 +15,8 @@ class Time {
   // time taken for each attempt
   std::time_t start_time_;
 
-  // store revenue
-  double revenue_;
+  // store revenue (unused but kept for potential future use)
+  // double revenue_;
 
  public:
   // constructor

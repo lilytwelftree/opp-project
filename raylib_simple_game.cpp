@@ -28,6 +28,7 @@
 #include "Sprinkles.h"  // sprinkles decoration type
 #include "Store.h"      // tracks store statistics
 #include "Time.h"       // manages countdown timer
+#include "IntroScreen.h" // handles intro and level transition screens
  
  using namespace std;
  
@@ -79,14 +80,14 @@
     int current_step = 1;         // which ingredient step we're on (1-4)
     bool show_results = false;    // whether to show order completion screen
     int result_timer = 0;         // how long results have been shown
-    bool show_intro = true;       // whether to show introduction screens
-    bool show_level_transition = false;  // whether to show level up screen
-    int intro_step = 0;           // which intro screen to show (0-3)
     
-    // images for level backgrounds
-    Texture2D level1_image;       // kitchen background
-    Texture2D level2_image;       // city bakery background
-    Texture2D level3_image;       // park background
+    // intro screen handler
+    IntroScreen intro_screen;     // handles intro and level transition screens
+    
+    // images for level backgrounds (moved to IntroScreen)
+    // Texture2D level1_image;       // kitchen background
+    // Texture2D level2_image;       // city bakery background
+    // Texture2D level3_image;       // park background
     
     // game domain objects (business logic classes)
     Stock stock_system;           // manages ingredient inventory
@@ -108,9 +109,9 @@
  public:
     /*
      * constructor
-     * sets up the shop with a reference to the stock system
+     * sets up the shop with a reference to the stock system and intro screen
      */
-     RaylibSimpleGame() : shop(&stock_system) {}
+    RaylibSimpleGame() : intro_screen(game.level, game.time_left), shop(&stock_system) {}
      
     /*
      * initialization
@@ -123,10 +124,8 @@
         InitWindow(screen_width, screen_height, "Cake Shop - Full Game");
         SetTargetFPS(60);  // run at 60 frames per second
         
-        // load background images for each level
-        level1_image = LoadTexture("level1.png");
-        level2_image = LoadTexture("level2.png");
-        level3_image = LoadTexture("level3.png");
+        // initialize intro screen (loads background images)
+        intro_screen.Init();
         
         // initialize random number generator (for generating random orders)
         srand(time(nullptr));
@@ -142,11 +141,9 @@
      * cleanup
      * frees memory used by loaded images
      */
-     void Cleanup() {
-         UnloadTexture(level1_image);
-         UnloadTexture(level2_image);
-         UnloadTexture(level3_image);
-     }
+    void Cleanup() {
+        intro_screen.Cleanup();
+    }
      
      /*
       * GENERATE NEW CUSTOMER
@@ -180,16 +177,16 @@
      void Update() {
          if (!game.game_running) return;  // Stop if game is over
          
-         // Handle different game states
-         if (show_intro) {
-             HandleIntroInput();  // Player is viewing intro screens
-             return;
-         }
-         
-         if (show_level_transition) {
-             HandleLevelTransitionInput();  // Player is viewing level up screen
-             return;
-         }
+        // handle different game states
+        if (intro_screen.IsShowingIntro()) {
+            intro_screen.HandleIntroInput();  // player is viewing intro screens
+            return;
+        }
+        
+        if (intro_screen.IsShowingLevelTransition()) {
+            intro_screen.HandleLevelTransitionInput();  // player is viewing level up screen
+            return;
+        }
          
          // Count down the message timer
          if (game.message_timer > 0) {
@@ -220,65 +217,10 @@
          HandleInput();
      }
      
-     /*
-      * HANDLE INTRO INPUT
-      * Processes clicks on the introduction story screens
-      */
-     void HandleIntroInput() {
-         Vector2 mouse = GetMousePosition();  // Get mouse cursor position
-         
-         // Define the continue button position
-         Rectangle btn = {250, static_cast<float>(screen_height/2 + 120), 200, 40};
-         
-         // Check if player clicked the button
-         if (CheckCollisionPointRec(mouse, btn) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-             if (intro_step < 3) {
-                 intro_step++;  // Move to next intro screen
-             } else {
-                 // Finished intro - move to level transition
-                 show_intro = false;
-                 show_level_transition = true;
-             }
-         }
-     }
-     
-     /*
-      * HANDLE LEVEL TRANSITION INPUT
-      * Processes clicks on the level start/transition screens
-      */
-     void HandleLevelTransitionInput() {
-         Vector2 mouse = GetMousePosition();
-         
-         // Define the start button position
-         Rectangle btn = {225, static_cast<float>(screen_height/2 + 90), 150, 40};
-         
-         // Check if player clicked start button
-         if (CheckCollisionPointRec(mouse, btn) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-             show_level_transition = false;
-             
-             // Set up timer for this level
-             time_system.SetTimeLimitByLevel(game.level);
-             
-             // If starting level 2, reset progress
-             if (game.level == 2) {
-                 game.money = 0;
-                 game.satisfaction = 0;
-                 game.orders_completed = 0;
-                 stock_system.ResetAll(3);  // Give player 3 of each ingredient
-             }
-             
-             // Update time left display
-             game.time_left = time_system.GetLimitSeconds();
-             
-             // Create first customer order
-             GenerateNewCustomer();
-         }
-     }
-     
-     /*
-      * HANDLE INPUT
-      * Processes player clicks during active gameplay
-      */
+    /*
+     * HANDLE INPUT
+     * Processes player clicks during active gameplay
+     */
      void HandleInput() {
          Vector2 mouse = GetMousePosition();
          
@@ -318,7 +260,7 @@
         }
          
          // Check if player clicked any ingredient button
-         for (int i = 0; i < options.size(); i++) {
+         for (size_t i = 0; i < options.size(); i++) {
              Rectangle btn = {470, static_cast<float>(160 + i * 55), 360, 45};
              
              if (CheckCollisionPointRec(mouse, btn) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
@@ -407,13 +349,13 @@
             // level 1 complete! move to level 2
             game.level = 2;
             game.time_left = 60;
-            show_level_transition = true;
+            intro_screen.ShowLevelTransition();
             return;
         } else if (game.level == 2 && game.money >= 1500 && game.satisfaction >= 80) {
             // level 2 complete! move to level 3
             game.level = 3;
             game.time_left = 30;
-            show_level_transition = true;
+            intro_screen.ShowLevelTransition();
             return;
         }
         
@@ -441,10 +383,10 @@
          ClearBackground(RAYWHITE);
          
         // draw the appropriate screen
-        if (show_intro) {
-            DrawIntroScreen();         // story introduction
-        } else if (show_level_transition) {
-            DrawLevelTransitionScreen(); // level up screen
+        if (intro_screen.IsShowingIntro()) {
+            intro_screen.DrawIntroScreen();         // story introduction
+        } else if (intro_screen.IsShowingLevelTransition()) {
+            intro_screen.DrawLevelTransitionScreen(); // level up screen
         } else {
             // main gameplay screen
             DrawRectangle(0, 0, screen_width, screen_height, {240, 240, 240, 255});
@@ -469,104 +411,10 @@
          EndDrawing();
      }
      
-     /*
-      * DRAW INTRO SCREEN
-      * Shows the story introduction with 4 different screens
-      */
-     void DrawIntroScreen() {
-         // Draw level 1 background image (kitchen)
-         Rectangle src = {0, 0, (float)level1_image.width, (float)level1_image.height};
-         Rectangle dst = {0, 0, (float)screen_width, (float)screen_height};
-         DrawTexturePro(level1_image, src, dst, {0, 0}, 0, WHITE);
-         
-         // Draw white story box on the left
-         Rectangle box = {50, (float)screen_height/2 - 200, 600, 400};
-         DrawRectangleRec(box, {255, 255, 255, 240});
-         DrawRectangleLinesEx(box, 3, {200, 200, 200, 255});
-         
-         // Show different text based on which intro step we're on
-         if (intro_step == 0) {
-             // Screen 1: Welcome
-             DrawText("Welcome to Your Shop", box.x + 44, box.y + 50, 32, {100, 100, 100, 255});
-         } else if (intro_step == 1) {
-             // Screen 2: Your story
-             DrawText("Welcome to Your Shop", box.x + 44, box.y + 30, 28, {100, 100, 100, 255});
-             DrawText("You are a hobby cook that has decided to", box.x + 40, box.y + 100, 20, {150, 150, 150, 255});
-             DrawText("take a gamble and build your dream", box.x + 40, box.y + 125, 20, {150, 150, 150, 255});
-             DrawText("business, decorating cakes!", box.x + 40, box.y + 150, 20, {150, 150, 150, 255});
-         } else if (intro_step == 2) {
-             // Screen 3: Your dream
-             DrawText("Welcome to Your Shop", box.x + 44, box.y + 30, 28, {100, 100, 100, 255});
-             DrawText("You started with just enough money for a", box.x + 40, box.y + 100, 20, {150, 150, 150, 255});
-             DrawText("small shop in your local neighbourhood,", box.x + 40, box.y + 125, 20, {150, 150, 150, 255});
-             DrawText("but your life long dream is to run your", box.x + 40, box.y + 150, 20, {150, 150, 150, 255});
-             DrawText("store in the middle of central park!", box.x + 40, box.y + 175, 20, {150, 150, 150, 255});
-         } else if (intro_step == 3) {
-             // Screen 4: Level 1 goals
-             DrawText("Level 1", box.x + 44, box.y + 30, 28, {100, 100, 100, 255});
-             DrawText("Your store needs to earn enough revenue", box.x + 40, box.y + 100, 20, {150, 150, 150, 255});
-             DrawText("while also getting enough happy customers", box.x + 40, box.y + 125, 20, {150, 150, 150, 255});
-             DrawText("for you to be able to level up your store", box.x + 40, box.y + 150, 20, {150, 150, 150, 255});
-         }
-         
-         // Draw continue button
-         Rectangle btn = {box.x + 200, box.y + 320, 200, 40};
-         DrawBox(btn, {255, 182, 193, 255}, {200, 200, 200, 255});
-         const char* btnText = (intro_step < 3) ? "Click to Continue" : "Start Game";
-         DrawText(btnText, btn.x + 15, btn.y + 12, 18, {100, 100, 100, 255});
-     }
-     
-     /*
-      * DRAW LEVEL TRANSITION SCREEN
-      * Shows level requirements and start button
-      */
-     void DrawLevelTransitionScreen() {
-         // Draw appropriate background image for this level
-         Texture2D* img = (game.level == 1) ? &level1_image : (game.level == 2) ? &level2_image : &level3_image;
-         Rectangle src = {0, 0, (float)img->width, (float)img->height};
-         Rectangle dst = {0, 0, (float)screen_width, (float)screen_height};
-         DrawTexturePro(*img, src, dst, {0, 0}, 0, WHITE);
-         
-         // Draw white info box on the left
-         Rectangle box = {50, (float)screen_height/2 - 150, 500, 300};
-         DrawRectangleRec(box, {255, 255, 255, 240});
-         DrawRectangleLinesEx(box, 3, {200, 200, 200, 255});
-         
-         // Show different text based on current level
-         if (game.level == 1) {
-             // Level 1: Starting screen
-             DrawText("Welcome to Your Shop", box.x + 80, box.y + 30, 28, {100, 100, 100, 255});
-             DrawText("Build cakes to serve customers!", box.x + 60, box.y + 70, 20, {150, 150, 150, 255});
-             DrawText("Level 1: Local Shop (90 seconds)", box.x + 100, box.y + 100, 18, {150, 150, 150, 255});
-             DrawText("Requirements:", box.x + 120, box.y + 130, 18, {150, 150, 150, 255});
-             DrawText("• $250 minimum", box.x + 140, box.y + 150, 16, {150, 150, 150, 255});
-             DrawText("• 70% satisfaction", box.x + 140, box.y + 170, 16, {150, 150, 150, 255});
-         } else if (game.level == 2) {
-             // Level 2: City bakery
-             DrawText("LEVEL UP!", box.x + 180, box.y + 30, 28, {100, 100, 100, 255});
-             DrawText("You've leveled up to the City!", box.x + 60, box.y + 70, 20, {150, 150, 150, 255});
-             DrawText("Level 2: City Bakery (60 seconds)", box.x + 80, box.y + 100, 18, {150, 150, 150, 255});
-             DrawText("New requirements:", box.x + 120, box.y + 130, 18, {150, 150, 150, 255});
-             DrawText("• $1500 minimum", box.x + 140, box.y + 150, 16, {150, 150, 150, 255});
-             DrawText("• 80% satisfaction", box.x + 140, box.y + 170, 16, {150, 150, 150, 255});
-         } else {
-             // Level 3: Final level - Central Park
-             DrawText("FINAL LEVEL!", box.x + 180, box.y + 30, 28, {100, 100, 100, 255});
-             DrawText("You've reached the final level!", box.x + 60, box.y + 70, 20, {150, 150, 150, 255});
-             DrawText("Level 3: Central Park (30 seconds)", box.x + 80, box.y + 100, 18, {150, 150, 150, 255});
-             DrawText("This is the ultimate challenge!", box.x + 120, box.y + 130, 18, {150, 150, 150, 255});
-         }
-         
-         // Draw start button
-         Rectangle btn = {box.x + 175, box.y + 240, 150, 40};
-         DrawBox(btn, {255, 182, 193, 255}, {200, 200, 200, 255});
-         DrawText("START", btn.x + 45, btn.y + 12, 20, {100, 100, 100, 255});
-     }
-     
-     /*
-      * DRAW STATUS BAR
-      * Top bar showing time, money, satisfaction, level, and orders completed
-      */
+    /*
+     * DRAW STATUS BAR
+     * Top bar showing time, money, satisfaction, level, and orders completed
+     */
      void DrawStatusBar() {
          // Draw gray background bar across top of screen
          Rectangle bar = {0, 0, (float)screen_width, 80};
@@ -666,7 +514,7 @@
          DrawText(title.c_str(), 480, 150, 16, {100, 100, 100, 255});
          
          // Draw ingredient option buttons
-         for (int i = 0; i < options.size(); i++) {
+         for (size_t i = 0; i < options.size(); i++) {
              Rectangle btn = {480, (float)(180 + i * 50), 400, 40};
              
             // check if this option is currently selected
@@ -796,7 +644,7 @@
          int x = 20;   // Starting X position
          
          // Draw purchase buttons for each ingredient
-         for (int i = 0; i < items.size(); i++) {
+         for (size_t i = 0; i < items.size(); i++) {
              int price = stock_system.GetPrice(items[i]);
              
              // Arrange in 2 columns
