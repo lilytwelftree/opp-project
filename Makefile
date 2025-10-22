@@ -13,7 +13,7 @@ TARGET = cake
 
 # Source files
 SOURCES = FinalGameWRaylib.cpp \
-  Stock.cpp Shop.cpp Order.cpp Cake.cpp Store.cpp \
+  Stock.cpp Shop.cpp Order.cpp Cake.cpp Store.cpp RaylibSimpleGame.cpp \
   Frosting.cpp Sprinkles.cpp Topping.cpp Decorations.cpp Time.cpp
 
 # Default target
