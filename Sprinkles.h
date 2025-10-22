@@ -3,14 +3,14 @@
 
 #include <string>
 
-#include "Decorations.h"
+#include "Topping.h"
 
-class Sprinkles : public Decorations {
+class Sprinkles : public Topping {
  protected:
   std::string topping_choice_;
 
  public:
-  // constructor
+  // constructr
   Sprinkles();
   explicit Sprinkles(const std::string& choice);
 

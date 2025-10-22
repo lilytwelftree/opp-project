@@ -5,7 +5,7 @@ TARGET = cake_terminal
 
 SOURCES = TextASCIIGame.cpp Game.cpp Customer.cpp Cake.cpp Order.cpp Store.cpp \
           Frosting.cpp Sprinkles.cpp Topping.cpp Filling.cpp Decorations.cpp \
-          Draw.cpp Time.cpp RecordManager.cpp
+          Draw.cpp Time.cpp RecordManager.cpp IntroScreen.cpp
 
 all: $(TARGET)
 

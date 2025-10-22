@@ -4,9 +4,9 @@
 #include <iostream>
 #include <string>
 
-#include "Decorations.h"
+#include "Topping.h"
 
-class Frosting : public Decorations {
+class Frosting : public Topping {
  protected:
   std::string topping_choice_;
 

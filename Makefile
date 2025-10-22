@@ -1,4 +1,5 @@
 # Makefile for Raylib Cake Game
+
 # Compiler and flags
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall -Wextra -O2 \
@@ -12,7 +13,7 @@ LDFLAGS = -L/opt/homebrew/opt/raylib/lib -lraylib \
 TARGET = cake
 
 # Source files
-SOURCES = FinalGameWRaylib.cpp \
+SOURCES = RaylibGame.cpp RaylibGameMain.cpp IntroScreen.cpp \
   Stock.cpp Shop.cpp Order.cpp Cake.cpp Store.cpp \
   Frosting.cpp Sprinkles.cpp Topping.cpp Decorations.cpp Time.cpp
 

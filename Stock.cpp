@@ -17,11 +17,11 @@ static const int PRICE_VALUES[] = {
 
 // constructor - calls initialise stock
 Stock::Stock() {
-    InitialiseStock();
+    InitializeStock();
 }
 
 // sets up starting amounts of each ingredient
-void Stock::InitialiseStock() {
+void Stock::InitializeStock() {
     // initialize starting stock quantities - 4 of everything (level 1 easier)
     inventory["Chocolate"] = 4;
     inventory["Vanilla"] = 4;
@@ -55,19 +55,19 @@ bool Stock::UseIngredient(const std::string& ingredient) {
     return false;
 }
 
-// checks if we have any of this ingredient left
+// checks if we have any of this ingredient let
 bool Stock::HasIngredient(const std::string& ingredient) const {
     auto it = inventory.find(ingredient);
     return it != inventory.end() && it->second > 0;
 }
 
-// returns how many of this ingredient we have
+// returns how many of this ingredient have
 int Stock::GetStock(const std::string& ingredient) const {
     auto it = inventory.find(ingredient);
     return (it != inventory.end()) ? it->second : 0;
 }
 
-// buys one ingredient if player has enough money
+// buys 1 ingredient if player has enough money
 bool Stock::BuyIngredient(const std::string& ingredient, int& money) {
     int price = GetPrice(ingredient);
     if (price > 0 && money >= price) {
@@ -78,9 +78,9 @@ bool Stock::BuyIngredient(const std::string& ingredient, int& money) {
     return false;
 }
 
-// looks up price of ingredient from the arrays
+// looks up price
 int Stock::GetPrice(const std::string& ingredient) const {
-    // linear search through the parallel arrays defined above
+    // search through the parallel arrays defined above
     const int COUNT = 16;
     for (int i = 0; i < COUNT; ++i) {
         if (ingredient == PRICE_NAMES[i]) return PRICE_VALUES[i];
@@ -88,10 +88,10 @@ int Stock::GetPrice(const std::string& ingredient) const {
     return 0;
 }
 
-// displays stock info (for raylib version)
+// displays stock info
 void Stock::DisplayStock(int x, int y) const {
     std::cout << "Stock Display at (" << x << ", " << y << ")" << std::endl;
-    // this will be implemented in the raylib version
+    // implemented in the raylib version
 }
 
 // resets all ingredients to same amount (for level restart)
