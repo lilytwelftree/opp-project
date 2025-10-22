@@ -3,7 +3,9 @@
 
 #include <string>
 
-#include "Game.h"
+// Forward declarations to avoid circular dependency
+class Game;
+class Store;
 
 class RecordManager {
  private:

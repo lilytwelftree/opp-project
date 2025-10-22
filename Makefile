@@ -30,13 +30,3 @@ clean:
 # Run the game
 run: $(TARGET)
 	./$(TARGET)
-
-# # Show help
-# help:
-# 	@echo "Available targets:"
-# 	@echo "  all      - Build the raylib game"
-# 	@echo "  clean    - Remove executable"
-# 	@echo "  run      - Build and run the game"
-# 	@echo "  help     - Show this help message"
-
-# .PHONY: all clean run help

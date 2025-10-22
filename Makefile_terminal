@@ -1,0 +1,21 @@
+# Makefile for Terminal Cake Game
+CXX = g++
+CXXFLAGS = -std=c++11 -Wall -Wextra -O2
+TARGET = cake_terminal
+
+SOURCES = TextASCIIGame.cpp Game.cpp Customer.cpp Cake.cpp Order.cpp Store.cpp \
+          Frosting.cpp Sprinkles.cpp Topping.cpp Filling.cpp Decorations.cpp \
+          Draw.cpp Time.cpp RecordManager.cpp
+
+all: $(TARGET)
+
+$(TARGET): $(SOURCES)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+run: $(TARGET)
+	./$(TARGET)
+
+clean:
+	rm -f $(TARGET)
+
+.PHONY: all run clean
