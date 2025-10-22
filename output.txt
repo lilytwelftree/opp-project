@@ -1,4 +1,4 @@
 Level of player 1
 Satisfaction score: 0
-Revenue: 40
+Revenue: 33
 Number of orders completed: 1
