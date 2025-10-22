@@ -1,7 +1,7 @@
 #include "Stock.h"
 #include <iostream>
 
-// Simple price table without std::map (parallel arrays)
+// simple price table without std::map (parallel arrays)
 static const char* PRICE_NAMES[] = {
     "Chocolate", "Vanilla", "Red Velvet", "Lemon",
     "Strawberry Jam", "Cream Cheese", "Chocolate Ganache", "Lemon Curd",
@@ -15,12 +15,14 @@ static const int PRICE_VALUES[] = {
     15, 15, 20, 0
 };
 
+// constructor - calls initialise stock
 Stock::Stock() {
-    InitializeStock();
+    InitialiseStock();
 }
 
-void Stock::InitializeStock() {
-    // Initialize starting stock quantities - 4 of everything (Level 1 easier)
+// sets up starting amounts of each ingredient
+void Stock::InitialiseStock() {
+    // initialize starting stock quantities - 4 of everything (level 1 easier)
     inventory["Chocolate"] = 4;
     inventory["Vanilla"] = 4;
     inventory["Red Velvet"] = 4;
@@ -39,11 +41,12 @@ void Stock::InitializeStock() {
     inventory["Rainbow"] = 4;
     inventory["Chocolate"] = 4;
     inventory["Gold Flakes"] = 4;
-    inventory["None"] = 999; // Always available
+    inventory["None"] = 999; // always available
     
-    // Prices are defined globally above; GetPrice() reads from those arrays
+    // prices are defined globally above; getprice() reads from those arrays
 }
 
+// uses one ingredient and reduces count by 1
 bool Stock::UseIngredient(const std::string& ingredient) {
     if (HasIngredient(ingredient)) {
         inventory[ingredient]--;
@@ -52,16 +55,19 @@ bool Stock::UseIngredient(const std::string& ingredient) {
     return false;
 }
 
+// checks if we have any of this ingredient left
 bool Stock::HasIngredient(const std::string& ingredient) const {
     auto it = inventory.find(ingredient);
     return it != inventory.end() && it->second > 0;
 }
 
+// returns how many of this ingredient we have
 int Stock::GetStock(const std::string& ingredient) const {
     auto it = inventory.find(ingredient);
     return (it != inventory.end()) ? it->second : 0;
 }
 
+// buys one ingredient if player has enough money
 bool Stock::BuyIngredient(const std::string& ingredient, int& money) {
     int price = GetPrice(ingredient);
     if (price > 0 && money >= price) {
@@ -72,8 +78,9 @@ bool Stock::BuyIngredient(const std::string& ingredient, int& money) {
     return false;
 }
 
+// looks up price of ingredient from the arrays
 int Stock::GetPrice(const std::string& ingredient) const {
-    // Linear search through the parallel arrays defined above
+    // linear search through the parallel arrays defined above
     const int COUNT = 16;
     for (int i = 0; i < COUNT; ++i) {
         if (ingredient == PRICE_NAMES[i]) return PRICE_VALUES[i];
@@ -81,13 +88,15 @@ int Stock::GetPrice(const std::string& ingredient) const {
     return 0;
 }
 
+// displays stock info (for raylib version)
 void Stock::DisplayStock(int x, int y) const {
     std::cout << "Stock Display at (" << x << ", " << y << ")" << std::endl;
-    // This will be implemented in the Raylib version
+    // this will be implemented in the raylib version
 }
 
+// resets all ingredients to same amount (for level restart)
 void Stock::ResetAll(int quantity) {
-    // Set all known items to quantity (except "None")
+    // set all known items to quantity (except "none")
     for (auto& kv : inventory) {
         if (kv.first == "None") continue;
         kv.second = quantity;

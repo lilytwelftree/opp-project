@@ -3,7 +3,7 @@
 
 #include <string>
 
-// Forward declarations to avoid circular dependency
+// forward declarations to avoid circular dependency
 class Game;
 class Store;
 
@@ -12,13 +12,13 @@ class RecordManager {
   std::string fileName;
 
  public:
-  // Constructor: Function to store a file name
+  // constructor - stores file name
   RecordManager(const std::string& file);
 
-  // Function to write game details
+  // saves game to file
   void saveGame(Game& game, const Store& store_);
 
-  // Function to load game with existing details
+  // loads game from file
   void loadGame(Game& game, Store& store_);
 };
 

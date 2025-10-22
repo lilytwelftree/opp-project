@@ -7,21 +7,21 @@
 
 class Shop {
 private:
-    Stock* stock;
-    bool shop_open;
+    Stock* stock;        // points to the stock system to buy ingredients
+    bool shop_open;      // whether the shop is currently open or closed
     
 public:
     Shop(Stock* stock_system);
     
-    // Shop control
+    // shop control
     void OpenShop();
     void CloseShop();
     bool IsOpen() const;
     
-    // Purchasing
+    // purchasing
     bool PurchaseItem(const std::string& ingredient, int& money);
     
-    // Display
+    // display
     void DrawShop(int x, int y, int money) const;
 };
 
